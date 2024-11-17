@@ -1,30 +1,36 @@
+
 import globals from "globals";
 import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 
-
-/** @type {import('eslint').Linter.Config[]} */
 export default [
-  {files: ["**/*.{js,mjs,cjs,ts}"]},
-  {languageOptions: { globals: globals.node }},
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+  // Apply to all JavaScript and TypeScript files
   {
-    ignores: ["node_modules", "dist"],
+    files: ["**/*.{js,mjs,cjs,ts}"],
+    languageOptions: {
+      parser: tsParser, // Use TypeScript parser
+      globals: globals.node, // Node.js global variables
+    },
+    ignores: ["node_modules", "dist"], // Ignore unnecessary directories
     rules: {
-      "no-unused-vars": "error",
-      "no-unused-expressions": "error",
-      "prefer-const": "error",
-      "no-console": "warn",
-      "no-undef": "error"
+      "no-unused-vars": "error", // Report unused variables
+      "no-unused-expressions": "error", // Prevent unused expressions
+      "prefer-const": "error", // Enforce const when variables are not reassigned
+      "no-console": "warn", // Warn on console usage
+      "no-undef": "error", // Disallow undefined variables
+      eqeqeq: "off", // Disable strict equality checking
+      "prefer-const": ["error", { ignoreReadBeforeAssign: true }], // Advanced const rule
     },
-    "globals": {
-      "process": "readonly"
-    },
-    "extends": [
-      "eslint:recommended", // Base ESLint recommendations
-      "plugin:@typescript-eslint/recommended", // TypeScript-specific recommendations
-      "prettier"
-    ]
   },
+  // Specific configuration for JavaScript files using CommonJS
+  {
+    files: ["**/*.js"],
+    languageOptions: {
+      sourceType: "commonjs", // Use CommonJS modules
+    },
+  },
+  // Recommended configurations from plugins
+  pluginJs.configs.recommended,
+  tseslint.configs.recommended,
 ];
