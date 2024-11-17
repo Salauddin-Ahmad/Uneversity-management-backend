@@ -7,4 +7,4 @@ app.get('/', (req, res) => {
 })
 
 console.log(process.cwd())
-// D:\Level-2-projects\ML-2\Moongoose
+// D:\Level-2-projects\ML-2\Moongoose/.env
