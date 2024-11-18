@@ -1,7 +1,6 @@
-import { Schema, model, connect } from 'mongoose';
+
 
 // 1. Create an interface representing a document in MongoDB.
-
 
 export type Gurdian = {
     fatherName: string;
@@ -11,6 +10,13 @@ export type Gurdian = {
     motherName: string;
     motherOccupation: string;
     motherContactNo: string;
+  }
+
+  export type LocalGurdian = {
+    name: string;
+    occupation: string;
+    contactNo: string;
+    address: string;
   }
 
 export type Student = {
@@ -29,11 +35,10 @@ export type Student = {
   presentAddress?: string;
   permanentAddress?: string;
   guardian: Gurdian;
+  localGuardian: LocalGurdian;
+  profileImage: string;
+  isActive:'active' | 'inActive',
 };
 
 // 2. Create a Schema corresponding to the document interface.
-const userSchema = new Schema<IUser>({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  avatar: String,
-});
+
