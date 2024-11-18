@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
-  const a = 10;
+  const a = 'hello'; // Replace with your logic here to fetch data from your database or API
   res.send(a);
 });
 
