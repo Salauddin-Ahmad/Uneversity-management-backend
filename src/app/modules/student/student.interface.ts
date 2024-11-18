@@ -19,13 +19,15 @@ export type Gurdian = {
     address: string;
   }
 
-export type Student = {
-  id: string;
-  name: {
+  export type UserName = {
     firstName: string;
     middlename: string;
     lastName: string;
-  };
+  }
+
+export type Student = {
+  id: string;
+  name: UserName;
   gender: 'male' | 'female';
   dateOfBirth: string;
   email: string;

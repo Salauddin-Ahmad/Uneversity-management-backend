@@ -51,3 +51,9 @@ const studentSchema = new Schema<Student>({
   profileImage: { type: String, required: true },
   isActive: { type: String, enum: ['active', 'blocked'], required: true },
 });
+
+
+
+// -----------------------Model-------------------------
+
+const Student = model<Student>('Student', studentSchema)
