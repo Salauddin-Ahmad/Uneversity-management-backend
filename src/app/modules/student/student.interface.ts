@@ -1,29 +1,27 @@
-
-
 // 1. Create an interface representing a document in MongoDB.
 
 export type Gurdian = {
-    fatherName: string;
-    fatherOccupation: string;
-    fatherContactNo: string;
+  fatherName: string;
+  fatherOccupation: string;
+  fatherContactNo: string;
 
-    motherName: string;
-    motherOccupation: string;
-    motherContactNo: string;
-  }
+  motherName: string;
+  motherOccupation: string;
+  motherContactNo: string;
+};
 
-  export type LocalGurdian = {
-    name: string;
-    occupation: string;
-    contactNo: string;
-    address: string;
-  }
+export type LocalGurdian = {
+  name: string;
+  occupation: string;
+  contactNo: string;
+  address: string;
+};
 
-  export type UserName = {
-    firstName: string;
-    middlename: string;
-    lastName: string;
-  }
+export type UserName = {
+  firstName: string;
+  middlename: string;
+  lastName: string;
+};
 
 export type Student = {
   id: string;
@@ -39,8 +37,7 @@ export type Student = {
   guardian: Gurdian;
   localGuardian: LocalGurdian;
   profileImage: string;
-  isActive:'active' | 'inActive',
+  isActive: 'active' | 'inActive';
 };
 
 // 2. Create a Schema corresponding to the document interface.
-

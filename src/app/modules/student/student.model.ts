@@ -1,10 +1,10 @@
-import { Schema, model} from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { Student, UserName, Gurdian } from './student.interface';
 
 const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
-    required: true,
+    required: [true, 'firstName is required'],
   },
   middlename: {
     type: String,
@@ -12,7 +12,7 @@ const userNameSchema = new Schema<UserName>({
   },
   lastName: {
     type: String,
-    required: true,
+    required: [true, 'lastName is required'],
   },
 });
 
@@ -33,9 +33,16 @@ const localGurdianSchema = new Schema({
 });
 
 const studentSchema = new Schema<Student>({
-  id: { type: String },
+  id: { type: String, required: true, unique: true },
   name: userNameSchema,
-  gender: { type: String, enum: ['male', 'female'], required: true },
+  gender: {
+    type: String,
+    enum: {
+      values: ['male', 'female'],
+      message: '{VALUE} is not valid',
+    },
+    required: true,
+  },
   dateOfBirth: { type: String, required: true },
   email: { type: String, required: true },
   contactNo: { type: String, required: true },
@@ -49,11 +56,13 @@ const studentSchema = new Schema<Student>({
   guardian: gurdianSchema,
   localGuardian: localGurdianSchema,
   profileImage: { type: String, required: true },
-  isActive: { type: String, enum: ['active', 'blocked'], required: true },
+  isActive: {
+    type: String,
+    enum: ['active', 'blocked'],
+    default: 'active',
+  },
 });
-
-
 
 // -----------------------Model-------------------------
 
-export const StudentModel = model<Student>('Student', studentSchema)
+export const StudentModel = model<Student>('Student', studentSchema);

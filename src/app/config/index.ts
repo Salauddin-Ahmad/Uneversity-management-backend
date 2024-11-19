@@ -8,7 +8,6 @@ dotenv.config({ path: path.join((process.cwd(), '.env')) });
 // console.log('Loaded PORT:', process.env.PORT);
 // console.log('Loaded DATABASE_URL:', process.env.DATABASE_URL);
 
-
 export default {
   port: process.env.PORT,
   database_url: process.env.DATABASE_URL,
