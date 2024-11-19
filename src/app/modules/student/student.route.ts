@@ -7,3 +7,7 @@ const router = express.Router();
 router.post('/create-student', StudentController.createStudent)
 
 export const StudentRoutes = router;
+
+
+
+// as express.RequestHandler

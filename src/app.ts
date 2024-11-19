@@ -6,12 +6,15 @@ const app: Application = express();
 app.use(express.json());
 app.use(cors());
 
+app.use('/api/v1/students', StudentRoutes)
+
+
+  
 const getAController = (req: Request, res: Response) => {
-  const a = 'hello'; // Replace with your logic here to fetch data from your database or API
+  const a = 10; // Replace with your logic here to fetch data from your database or API
   res.send(a);
 }
 
-app.use('/api/v1/students', StudentRoutes)
 
 
 app.get('/', getAController);
