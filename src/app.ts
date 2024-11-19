@@ -11,9 +11,10 @@ app.use('/api/v1/students', StudentRoutes)
 
   
 const getAController = (req: Request, res: Response) => {
-  const a = 10; // Replace with your logic here to fetch data from your database or API
-  res.send(a);
-}
+  const a = 10;
+  res.status(200).send(a.toString()); // Converts the number to a string to avoid issues
+};
+
 
 
 
