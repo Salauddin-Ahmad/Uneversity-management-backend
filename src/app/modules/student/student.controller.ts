@@ -34,6 +34,11 @@ const getAllStudents: RequestHandler = async (req, res, next) => {
     });
   } catch (error) {
     next(error); // Pass to error handler
+    res.status(500).json({
+      success: true,
+      message: 'Something went wrong',
+      data: error,
+    });
   }
 };
 
