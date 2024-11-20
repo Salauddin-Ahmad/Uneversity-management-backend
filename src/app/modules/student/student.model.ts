@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
 import { Student, UserName, Gurdian } from './student.interface';
 
+import validator from 'validator';
+
 const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
@@ -10,11 +12,14 @@ const userNameSchema = new Schema<UserName>({
     validate: {
       validator: function (value: string) {
         const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
-          return firstNameStr === value;
-        },
-        message: `{VALUE} is not in capitalized format`
 
+        return firstNameStr === value;
+      },
+
+      message: `{VALUE} is not in capitalized format`,
+    },
   },
+
   middlename: {
     type: String,
     required: false,
@@ -23,6 +28,11 @@ const userNameSchema = new Schema<UserName>({
     type: String,
     required: [true, 'Last name is required.'],
     maxlength: [20, 'Last name should not exceed 20 characters.'],
+    validate: {
+      validator: (value: string) => validator.isAlpha(value),
+      message: "{VALUE} contains non-alphabetic characters",
+
+    }
   },
 });
 
@@ -94,6 +104,10 @@ const studentSchema = new Schema<Student>({
   email: {
     type: String,
     required: [true, 'Email is required.'],
+    validate: {
+      validator: (value: string) => validator.isEmail(value),
+      message: '{VALUE} is not a valid email.',
+    },
   },
   contactNo: {
     type: String,
@@ -131,3 +145,4 @@ const studentSchema = new Schema<Student>({
 // -----------------------Model-------------------------
 
 export const StudentModel = model<Student>('Student', studentSchema);
+
