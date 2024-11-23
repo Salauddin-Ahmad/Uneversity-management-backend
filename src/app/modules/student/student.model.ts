@@ -20,7 +20,7 @@ const userNameSchema = new Schema<UserName>({
     },
   },
 
-  middlename: {
+  middleName: {
     type: String,
     required: false,
   },
@@ -30,9 +30,8 @@ const userNameSchema = new Schema<UserName>({
     maxlength: [20, 'Last name should not exceed 20 characters.'],
     validate: {
       validator: (value: string) => validator.isAlpha(value),
-      message: "{VALUE} contains non-alphabetic characters",
-
-    }
+      message: '{VALUE} contains non-alphabetic characters',
+    },
   },
 });
 
@@ -145,4 +144,3 @@ const studentSchema = new Schema<Student>({
 // -----------------------Model-------------------------
 
 export const StudentModel = model<Student>('Student', studentSchema);
-

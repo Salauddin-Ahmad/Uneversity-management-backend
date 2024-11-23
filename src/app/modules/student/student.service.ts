@@ -18,6 +18,7 @@ const getAllStudentsFromDB = async () => {
 
 const getSingleStudentById = async (id: string) => {
   const result = await StudentModel.findOne({ id });
+  // return await BicycleSchema.findById(productId); // it can be used also 
   return result;
 };
 

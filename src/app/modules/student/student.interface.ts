@@ -19,7 +19,7 @@ export type LocalGurdian = {
 
 export type UserName = {
   firstName: string;
-  middlename: string;
+  middleName?: string;
   lastName: string;
 };
 

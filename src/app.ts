@@ -12,7 +12,6 @@ const getAController = (req: Request, res: Response) => {
   const a = 10;
   res.status(200).send(a.toString()); // Converts the number to a string to avoid issues
 };
-
 app.get('/', getAController);
 
 export default app;
