@@ -157,6 +157,15 @@ const studentSchema = new Schema<TStudent, studentModel>({
     type: Boolean,
     default: false,
   } 
+},{
+  toJSON: {
+    virtuals: true,
+  }
+});
+
+// virtual
+ studentSchema.virtual('fullName').get(function() {
+  return this.name.firstName +'' + this.name.middleName +'' + this.name.lastName;
 });
 
 // pre saved middleware /hook : will work on create() save()
