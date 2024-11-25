@@ -48,9 +48,16 @@ const getSingleStudentById = async (id: string) => {
   // return await BicycleSchema.findById(productId); // it can be used also
   return result;
 };
+const deleteStudentfromDB = async (id: string) => {
+  const result = await StudentModel.updateOne({ id }, {isDeleted: true});
+
+  // return await BicycleSchema.findById(productId); // it can be used also
+  return result;
+};
 
 export const StudentServices = {
   createStudentIntoDB,
   getAllStudentsFromDB,
   getSingleStudentById,
+  deleteStudentfromDB
 };

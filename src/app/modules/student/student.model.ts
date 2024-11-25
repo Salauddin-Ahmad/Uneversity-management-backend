@@ -153,6 +153,10 @@ const studentSchema = new Schema<TStudent, studentModel>({
     enum: ['active', 'blocked'],
     default: 'active',
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  } 
 });
 
 // pre saved middleware /hook : will work on create() save()
@@ -171,8 +175,9 @@ next();
 
 
 // post savee middleware hook
-studentSchema.post('save', function(){
-  console.log(this,'post hook: we have saved the data')
+studentSchema.post('save', function(doc, next){
+  doc.password = ""
+  next();
 })
 
 
