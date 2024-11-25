@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { studentMethod } from './student.interface';
+import { studentMethod, studentModel } from './student.interface';
 // 1. Create an interface representing a document in MongoDB.
 
 export type TGurdian = {
@@ -42,13 +42,20 @@ export type TStudent = {
   isActive: 'active' | 'inActive';
 };
 
-// 2. Create a Schema corresponding to the document interface.
+export interface studentModel extends Model<TStudent> {
+ isUserExists(id: string): Promise<TStudent | null>;
+}
 
-export type studentMethods = {
-  isUserExists(id: string): Promise<TStudent | null>;
-};
-export type studentModel = Model<
-  TStudent,
-  Record<string, never>,
-  studentMethods
->;
+
+
+
+
+// for creating instances
+// export type studentMethods = {
+//   isUserExists(id: string): Promise<TStudent | null>;
+// };
+// export type studentModel = Model<
+//   TStudent,
+//   Record<string, never>,
+//   studentMethods
+// >;

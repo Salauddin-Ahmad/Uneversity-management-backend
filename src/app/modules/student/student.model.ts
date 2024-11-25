@@ -4,7 +4,7 @@ import {
   TUserName,
   TGurdian,
   studentModel,
-  studentMethods,
+  // studentMethods,
 } from './student.interface';
 
 import validator from 'validator';
@@ -87,7 +87,7 @@ const localGurdianSchema = new Schema({
   },
 });
 
-const studentSchema = new Schema<TStudent, studentModel, studentMethods>({
+const studentSchema = new Schema<TStudent, studentModel>({
   id: {
     type: String,
     required: [true, 'Student ID is required.'],
@@ -149,10 +149,20 @@ const studentSchema = new Schema<TStudent, studentModel, studentMethods>({
 
 // -----------------------Model-------------------------
 
-studentSchema.methods.isUserExists = async function(id: string){
-  const existingUser = await StudentModel.findOne({id: id});
+// creating a custom static  method
+studentSchema.statics.isUserExists = async function(id: string) {
+  const existingUser = await StudentModel.findOne({ id: id });
+  return existingUser;
+};
 
-  return existingUser
+// // creating a custom instance method
 
-}
+// // crate an custom instance of with db and moongoose
+// studentSchema.methods.isUserExists = async function(id: string){
+//   const existingUser = await StudentModel.findOne({id: id});
+//   return existingUser
+// }
+
+
+
 export const StudentModel = model<TStudent, studentModel>('Student', studentSchema);
