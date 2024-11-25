@@ -173,6 +173,20 @@ studentSchema.pre('save', async function(next){
 next();
 })
 
+// query middleware 
+
+studentSchema.pre('find', function(next){
+  this.find({isDeleted: {$ne: true}})
+  next()
+});
+studentSchema.pre('findOne', function(next){
+  this.find({isDeleted: {$ne: true}})
+  next()
+});
+studentSchema.pre('aggregate', function(next){
+  this.pipeline().unshift({$match: {isDeleted: {$ne: true}}})
+  next()
+});
 
 // post savee middleware hook
 studentSchema.post('save', function(doc, next){

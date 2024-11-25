@@ -44,10 +44,14 @@ const getAllStudentsFromDB = async () => {
 };
 
 const getSingleStudentById = async (id: string) => {
-  const result = await StudentModel.findOne({ id });
+  // const result = await StudentModel.findOne({ id });
   // return await BicycleSchema.findById(productId); // it can be used also
+  const result = await StudentModel.aggregate([
+    { $match: {id: id} }
+  ]);
   return result;
 };
+
 const deleteStudentfromDB = async (id: string) => {
   const result = await StudentModel.updateOne({ id }, {isDeleted: true});
 
