@@ -17,7 +17,12 @@ const createStudent: RequestHandler = async (req, res, next) => {
       message: 'Student created successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (error : any) {
+    res.status(201).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
     next(error); // Pass to error handler
   }
 };

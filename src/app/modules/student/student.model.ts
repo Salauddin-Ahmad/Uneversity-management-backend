@@ -1,9 +1,15 @@
 import { Schema, model } from 'mongoose';
-import { Student, UserName, Gurdian } from './student.interface';
+import {
+  TStudent,
+  TUserName,
+  TGurdian,
+  studentModel,
+  studentMethods,
+} from './student.interface';
 
 import validator from 'validator';
 
-const userNameSchema = new Schema<UserName>({
+const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required.'],
@@ -35,7 +41,7 @@ const userNameSchema = new Schema<UserName>({
   },
 });
 
-const gurdianSchema = new Schema<Gurdian>({
+const gurdianSchema = new Schema<TGurdian>({
   fatherName: {
     type: String,
     required: [true, "Father's name is required."],
@@ -81,7 +87,7 @@ const localGurdianSchema = new Schema({
   },
 });
 
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent, studentModel, studentMethods>({
   id: {
     type: String,
     required: [true, 'Student ID is required.'],
@@ -143,4 +149,10 @@ const studentSchema = new Schema<Student>({
 
 // -----------------------Model-------------------------
 
-export const StudentModel = model<Student>('Student', studentSchema);
+studentSchema.methods.isUserExists = async function(id: string){
+  const existingUser = await StudentModel.findOne({id: id});
+
+  return existingUser
+
+}
+export const StudentModel = model<TStudent, studentModel>('Student', studentSchema);
