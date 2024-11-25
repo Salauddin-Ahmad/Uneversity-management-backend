@@ -27,6 +27,7 @@ export type TUserName = {
 
 export type TStudent = {
   id: string;
+  password: string;
   name: TUserName;
   gender: 'male' | 'female';
   dateOfBirth: string;
@@ -41,6 +42,12 @@ export type TStudent = {
   profileImage: string;
   isActive: 'active' | 'inActive';
 };
+
+
+
+
+
+
 
 export interface studentModel extends Model<TStudent> {
  isUserExists(id: string): Promise<TStudent | null>;

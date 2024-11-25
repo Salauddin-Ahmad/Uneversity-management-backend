@@ -54,6 +54,7 @@ const StatusEnum = z.enum(['active', 'inActive']);
 // Student Schema
 const studentValidationSchema = z.object({
   id: z.string().min(1, 'Student ID is required.'),
+  password: z.string().max(20),
   name: userNameValidationSchema,
   gender: GenderEnum,
   dateOfBirth: z.string().min(1, 'Date of birth is required.'),
