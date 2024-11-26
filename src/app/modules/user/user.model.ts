@@ -20,7 +20,9 @@ const userSchema = new Schema<Tuser>({
     },
     status: {
         type: String,
-        enum: ['in-progress', 'blocked']
+        enum: ['in-progress', 'blocked'],
+        default: 'in-progress',
+
     },
     isDeleted: {
         type: Boolean,
