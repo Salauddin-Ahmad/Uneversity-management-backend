@@ -3,7 +3,7 @@ export type Tuser = {
     password: string;
     needsPasswordChange: boolean;
     status: 'in-progress' | 'blocked';
-    role: 'admin' | 'faculty' | 'user';
+    role: 'admin' | 'faculty' | 'student';
     isDeleted: boolean;
 };
 

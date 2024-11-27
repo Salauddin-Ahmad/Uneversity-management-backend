@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 import {
   TStudent,
   TUserName,
@@ -95,6 +95,12 @@ const studentSchema = new Schema<TStudent, studentModel>({
     required: [true, 'Student ID is required.'],
     unique: true,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'Student ID is required.'],
+    unique: true,
+    ref: 'User',
+  },
   password: {
     type: String ,
     required: [true, 'password ID is required.'],
@@ -148,11 +154,7 @@ const studentSchema = new Schema<TStudent, studentModel>({
     type: String,
     required: [true, 'Profile image is required.'],
   },
-  isActive: {
-    type: String,
-    enum: ['active', 'blocked'],
-    default: 'active',
-  },
+  
   isDeleted: {
     type: Boolean,
     default: false,

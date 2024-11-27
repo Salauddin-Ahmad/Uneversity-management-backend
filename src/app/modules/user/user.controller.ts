@@ -1,12 +1,14 @@
+import { RequestHandler } from 'express';
+import { UserService } from './user.service';
 const createStudent: RequestHandler = async (req, res, next) => {
     try {
-      const { student: studentData } = req.body;
+      const { password,  student: studentData } = req.body;
   
       // data validation using zod
-      const zodParsedData = studentValidationSchema.parse(studentData);
+      // const zodParsedData = studentValidationSchema.parse(studentData);
       // const {error, value} = studentValidationSchema.validate(studentData);
   
-      const result = await StudentServices.createStudentIntoDB(zodParsedData);
+      const result = await UserService.createStudentIntoDB(password, studentData);
   
       res.status(201).json({
         success: true,
@@ -22,3 +24,8 @@ const createStudent: RequestHandler = async (req, res, next) => {
       next(error); // Pass to error handler
     }
   };
+
+
+  export const UserController ={
+    createStudent,
+  }
