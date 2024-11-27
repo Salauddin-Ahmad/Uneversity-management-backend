@@ -26,6 +26,6 @@ const createStudent: RequestHandler = async (req, res, next) => {
   };
 
 
-  export const UserController ={
+  export const UserController = {
     createStudent,
   }

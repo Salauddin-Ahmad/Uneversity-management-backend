@@ -1,6 +1,7 @@
 import config from '../../config';
 import { TStudent } from '../student/student.interface';
-import { NewUSer, Tuser } from './user.interface';
+import { StudentModel } from '../student/student.model';
+import { Tuser } from './user.interface';
 import { User } from './user.model';
 
 const createStudentIntoDB = async (password: string, studentData: TStudent) => {
@@ -22,7 +23,7 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
           studentData.id = newUser.id; // embedding id
           studentData.user = newUser._id; //reference id
           
-          const newStudent = await Student.create(studentData);
+          const newStudent = await StudentModel.create(studentData);
           return newStudent;
         }
         return newUser;
