@@ -1,6 +1,6 @@
-import { RequestHandler } from 'express';
+import { NextFunction, RequestHandler } from 'express';
 import { UserService } from './user.service';
-const createStudent: RequestHandler = async (req, res, next) => {
+const createStudent: RequestHandler = async (req, res, next: NextFunction) => {
     try {
       const { password,  student: studentData } = req.body;
   
@@ -15,13 +15,8 @@ const createStudent: RequestHandler = async (req, res, next) => {
         message: 'Student created successfully',
         data: result,
       });
-    } catch (error : any) {
-      res.status(500).json({
-        success: false,
-        message: error.message || 'Something went wrong',
-        error: error,
-      });
-      next(error); // Pass to error handler
+    } catch (error) {
+      next(error); // Pass to error to global handler
     }
   };
 

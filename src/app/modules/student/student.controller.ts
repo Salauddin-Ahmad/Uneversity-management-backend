@@ -1,10 +1,10 @@
-import { RequestHandler } from 'express';
+import { NextFunction, RequestHandler } from 'express';
 import { StudentServices } from './student.service';
 
 
 
 
-const getAllStudents: RequestHandler = async (req, res, next) => {
+const getAllStudents: RequestHandler = async (req, res, next: NextFunction) => {
   try {
     const result = await StudentServices.getAllStudentsFromDB();
     res.status(201).json({
@@ -12,13 +12,8 @@ const getAllStudents: RequestHandler = async (req, res, next) => {
       message: 'Students are retrieved successfully',
       data: result,
     });
-  } catch (error: any) {
-    next(error); // Pass to error handler
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong',
-      error: error,
-    });
+  } catch (error) {
+    next(error); // Pass to error to global handler
   }
 };
 
@@ -32,12 +27,7 @@ const getStudentById: RequestHandler = async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong',
-      error: error,
-    });
-    next(error);
+    next(error); // Pass to error to global handler
   }
 };
 const deleteStudent: RequestHandler = async (req, res, next) => {
@@ -50,12 +40,7 @@ const deleteStudent: RequestHandler = async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong',
-      error: error,
-    });
-    next(error);
+    next(error); // Pass to error to global handler
   }
 };
 export const StudentController = {
