@@ -1,8 +1,9 @@
-import express, { Application, Request, response, Response } from 'express';
+import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import { StudentRoutes } from './app/modules/student/student.route';
 import { UserRoutes } from './app/modules/user/user.route';
-import { error } from 'console';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
+
 const app: Application = express();
 
 app.use(express.json());
@@ -17,14 +18,6 @@ const getAController = (req: Request, res: Response) => {
 };
 app.get('/', getAController);
 
-app.use((error: any, req: Request, res: Response, next: NextFunction ) => {
-  const statusCode = 500;
-  const message = error.message || "Something went wrong!";
-   return res.status(statusCode).json({
-    success: false,
-    message,
-    error: error,
-   }) 
-})
+app.use(globalErrorHandler)
 
 export default app;
