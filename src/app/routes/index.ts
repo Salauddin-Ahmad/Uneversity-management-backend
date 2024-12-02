@@ -21,8 +21,6 @@ moduleRoutes.forEach(({ path, module }) => {
 }); 
 
 
-router.use('/users', UserRoutes);
-router.use('/students', StudentRoutes)
 
 
 export default router 

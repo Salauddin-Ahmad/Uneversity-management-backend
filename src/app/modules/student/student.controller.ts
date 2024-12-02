@@ -4,21 +4,25 @@ import { StudentServices } from './student.service';
 
 
 
-const getAllStudents: RequestHandler = async (req, res, next: NextFunction) => {
-  try {
+const catchAsync = (fn: RequestHandler) => {
+return (req: Request, res: Response, next: NextFunction) => {
+  Promise.resolve(fn(req, res, next)).catch(error => next(error));
+}
+
+}
+
+const getAllStudents= catchAsync(async (req, res, next) => {
+  
     const result = await StudentServices.getAllStudentsFromDB();
     res.status(201).json({
       success: true,
       message: 'Students are retrieved successfully',
       data: result,
     });
-  } catch (error) {
-    next(error); // Pass to error to global handler
-  }
-};
+})
 
-const getStudentById: RequestHandler = async (req, res, next) => {
-  try {
+
+const getStudentById= catchAsync(async (req, res, next) => {
     const { studentId } = req.params;
     const result = await StudentServices.getSingleStudentById(studentId);
     res.status(200).json({
@@ -26,12 +30,9 @@ const getStudentById: RequestHandler = async (req, res, next) => {
       message: 'Student is retrieved successfully',
       data: result,
     });
-  } catch (error) {
-    next(error); // Pass to error to global handler
-  }
-};
-const deleteStudent: RequestHandler = async (req, res, next) => {
-  try {
+}) 
+const deleteStudent = catchAsync(async (req, res, next) => {
+
     const { studentId } = req.params;
     const result = await StudentServices.deleteStudentfromDB(studentId);
     res.status(200).json({
@@ -39,10 +40,9 @@ const deleteStudent: RequestHandler = async (req, res, next) => {
       message: 'Student is retrieved successfully',
       data: result,
     });
-  } catch (error) {
-    next(error); // Pass to error to global handler
-  }
-};
+})
+
+
 export const StudentController = {
   getAllStudents,
   getStudentById,
