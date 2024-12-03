@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 const createAcademicSemesterValidationSchema = z.object({
-   name: z.enum(),
-    
+   name: z.enum(['Autumn', 'Summer', 'Fall']),
+
    
 }) 
 
