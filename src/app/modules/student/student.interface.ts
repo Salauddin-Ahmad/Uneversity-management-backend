@@ -27,11 +27,11 @@ export type TUserName = {
 
 export type TStudent = {
   id: string;
-  user: Types.ObjectId()
+  user: Types.ObjectId;
   password: string;
   name: TUserName;
   gender: 'male' | 'female';
-  dateOfBirth: string;
+  dateOfBirth: Date;
   email: string;
   contactNo?: string;
   emergencyContactNo?: string;
