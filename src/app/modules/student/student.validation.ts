@@ -53,23 +53,27 @@ const StatusEnum = z.enum(['active', 'inActive']);
 
 // Student Schema
 const studentValidationSchema = z.object({
-  id: z.string().min(1, 'Student ID is required.'),
-  password: z.string().max(20),
-  name: userNameValidationSchema,
-  gender: GenderEnum,
-  dateOfBirth: z.string().min(1, 'Date of birth is required.'),
-  email: z.string().email('Invalid email address.'),
-  contactNo: z.string().min(1, 'Contact number is required.'),
-  emergencyContactNo: z
-    .string()
-    .min(1, 'Emergency contact number is required.'),
-  bloodGroup: BloodGroupEnum,
-  presentAddress: z.string().min(1, 'Present address is required.'),
-  guardian: guardianSchema,
-  localGuardian: localGuardianValidationSchema,
-  profileImage: z.string().min(1, 'Profile image is required.'),
-  isActive: StatusEnum.default('active'),
-  isDeleted: z.boolean()
+  body: z.object({
+    id: z.string().min(1, 'Student ID is required.'),
+    password: z.string().max(20),
+    name: userNameValidationSchema,
+    gender: GenderEnum,
+    dateOfBirth: z.string().min(1, 'Date of birth is required.'),
+    email: z.string().email('Invalid email address.'),
+    contactNo: z.string().min(1, 'Contact number is required.'),
+    emergencyContactNo: z
+      .string()
+      .min(1, 'Emergency contact number is required.'),
+    bloodGroup: BloodGroupEnum,
+    presentAddress: z.string().min(1, 'Present address is required.'),
+    guardian: guardianSchema,
+    localGuardian: localGuardianValidationSchema,
+    profileImage: z.string().min(1, 'Profile image is required.'),
+    isActive: StatusEnum.default('active'),
+    isDeleted: z.boolean(),
+  }),
 });
 
-export default studentValidationSchema;
+export const studentValidations = {
+  studentValidationSchema,
+};

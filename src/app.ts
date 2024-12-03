@@ -20,6 +20,6 @@ const getAController = (req: Request, res: Response) => {
 app.get('/', getAController);
 
 app.use(globalErrorHandler)
-app.use(notFound)
+// app.use(notFound)
 
 export default app;
