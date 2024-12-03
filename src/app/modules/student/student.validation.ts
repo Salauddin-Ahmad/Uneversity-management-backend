@@ -20,7 +20,7 @@ const userNameValidationSchema = z.object({
 });
 
 // Guardian Schema
-const guardianSchema = z.object({
+const guardianValidationSchema = z.object({
   fatherName: z.string().min(1, "Father's name is required."),
   fatherOccupation: z.string().min(1, "Father's occupation is required."),
   fatherContactNo: z.string().min(1, "Father's contact number is required."),
@@ -49,31 +49,30 @@ const BloodGroupEnum = z.enum([
   'O+',
   'O-',
 ]);
-const StatusEnum = z.enum(['active', 'inActive']);
 
 // Student Schema
-const studentValidationSchema = z.object({
+export const createStudentValidationSchema = z.object({
   body: z.object({
-    id: z.string().min(1, 'Student ID is required.'),
     password: z.string().max(20),
-    name: userNameValidationSchema,
-    gender: GenderEnum,
-    dateOfBirth: z.string().min(1, 'Date of birth is required.'),
-    email: z.string().email('Invalid email address.'),
-    contactNo: z.string().min(1, 'Contact number is required.'),
-    emergencyContactNo: z
-      .string()
-      .min(1, 'Emergency contact number is required.'),
-    bloodGroup: BloodGroupEnum,
-    presentAddress: z.string().min(1, 'Present address is required.'),
-    guardian: guardianSchema,
-    localGuardian: localGuardianValidationSchema,
-    profileImage: z.string().min(1, 'Profile image is required.'),
-    isActive: StatusEnum.default('active'),
-    isDeleted: z.boolean(),
+    student: z.object({
+      name: userNameValidationSchema,
+      gender: GenderEnum,
+      dateOfBirth: z.string().min(1, 'Date of birth is required.'),
+      email: z.string().email('Invalid email address.'),
+      contactNo: z.string().min(1, 'Contact number is required.'),
+      emergencyContactNo: z
+        .string()
+        .min(1, 'Emergency contact number is required.'),
+      bloodGroup: BloodGroupEnum,
+      presentAddress: z.string().min(1, 'Present address is required.'),
+      guardian: guardianValidationSchema,
+      localGuardian: localGuardianValidationSchema,
+      profileImage: z.string().min(1, 'Profile image is required.'),
+    })
   }),
 });
 
+
 export const studentValidations = {
-  studentValidationSchema,
+  createStudentValidationSchema,
 };
