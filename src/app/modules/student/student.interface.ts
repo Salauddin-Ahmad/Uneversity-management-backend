@@ -40,23 +40,14 @@ export type TStudent = {
   permanentAddress?: string;
   guardian: TGurdian;
   localGuardian: TLocalGurdian;
-  profileImage: string;
+  profileImage?: string;
+  admissionSemester: Types.ObjectId;
   isDeleted: boolean;
 };
 
-
-
-
-
-
-
 export interface studentModel extends Model<TStudent> {
- isUserExists(id: string): Promise<TStudent | null>;
+  isUserExists(id: string): Promise<TStudent | null>;
 }
-
-
-
-
 
 // for creating instances
 // export type studentMethods = {
