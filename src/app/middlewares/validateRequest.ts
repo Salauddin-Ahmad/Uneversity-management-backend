@@ -7,9 +7,13 @@ const validateRequest = (schema: AnyZodObject) => {
   
       try {
         // data validation using zod
-        await schema.parseAsync({
-          body: req.body,
-        });
+        // await schema.parseAsync({
+        //   body: req.body,
+        // });
+
+        await schema.parseAsync(req.body);
+        next();
+
       } catch (error) {
         // goto next controller
         next(error);
