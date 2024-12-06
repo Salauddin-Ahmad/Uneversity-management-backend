@@ -41,9 +41,25 @@ const getSingleAcademicSemester = catchAsync(
     });
   },
 );
+const patchSingleAcademicSemester = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params; // Extract `id`
+    const payload = req.body; // Extract `payload`
+
+    const result = await AcademicSemesterServices.patchAcademicSemesterFromDb(id, payload);
+
+    res.status(200).json({
+      success: true,
+      message: 'Academic semester updated successfully',
+      data: result,
+    });
+  },
+);
+
 export const AcademicSemesterController = {
   createAcademicSemester,
   getAcademicSemester,
-  getSingleAcademicSemester
+  getSingleAcademicSemester,
+  patchSingleAcademicSemester
 
 };
