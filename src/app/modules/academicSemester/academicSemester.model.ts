@@ -7,6 +7,7 @@ import { AcademicSemesterCode, AcademicSemesterName, Months } from './academicSe
 
 
 const academicSemesterSchema = new Schema<TAcademicSemester>(
+  
   {
     name: {
       type: String,
