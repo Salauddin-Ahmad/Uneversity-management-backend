@@ -30,3 +30,4 @@ export const academicSemesterNameCodeMapper: TAcademicSemesterNameCodeMapper = {
   Summer: '02',
   Fall: '03',
 };
+

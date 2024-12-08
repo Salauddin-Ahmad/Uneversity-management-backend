@@ -1,8 +1,18 @@
 import { AcademicSemester } from './academicSemester.model';
-import { TAcademicSemester, } from './academicSemester.interface';
+import { TAcademicSemester } from './academicSemester.interface';
 import { academicSemesterNameCodeMapper } from './academicSemester.constants';
 
+
 const createAcademicSemesterIntoDb = async (payload: TAcademicSemester) => {
+
+
+  // semester name --> semester code
+ 
+
+  if(academicSemesterNameCodeMapper[payload.name] !== payload.code) {
+    throw new Error('Invalid Semester code')
+  }
+
   const result = await AcademicSemester.create(payload);
   return result;
 };
@@ -26,9 +36,13 @@ const patchAcademicSemesterFromDb = async (
   ) {
     throw new Error('Invalid combination of name and code');
   }
-  const result = await AcademicSemester.findByIdAndUpdate(({_id: id}), payload, {
-    new: true,
-  });
+  const result = await AcademicSemester.findByIdAndUpdate(
+    { _id: id },
+    payload,
+    {
+      new: true,
+    },
+  );
 
   return result;
 };
