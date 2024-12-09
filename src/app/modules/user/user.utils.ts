@@ -1,28 +1,37 @@
-import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
-import { User } from "./user.model";
+import { TAcademicSemester } from '../academicSemester/academicSemester.interface';
+import { User } from './user.model';
 
+const findlastStuentId = async () => {
+  const lastStudent = await User.findOne(
+    {
+      role: 'student',
+    },
+    {
+      id: 1,
+      _id: 0,
+    },
+  ).sort({
+    createdAt: -1,
+  });
 
+  return lastStudent?.id ? lastStudent.id.substring(6) : undefined;
+};
 
-const findlastStue
-
-
-
-export const generateStudentId = async (payload: TAcademicSemester): Promise<string> => {
+export const generateStudentId = async (
+  payload: TAcademicSemester,
+): Promise<string> => {
   // Find the latest student ID for the given semester
-  const latestStudent = await User.findOne({ role: 'student' })
-    .sort({ id: -1 }) // Sort in descending order of ID
-    .lean();
 
-  // Extract the current ID or initialize as "0000"
-  const currentId = latestStudent?.id
-    ? latestStudent.id.slice(-4) // Extract the last 4 digits
-    : "0000";
+  console.log(await findlastStuentId());
+
+  const currentId = await findlastStuentId() || (0).toString();
+
 
   // Increment the ID and pad with leading zeroes
-  const incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
+  let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
 
   // Combine year, semester code, and incremented ID
-  const studentId = `${payload.year}${payload.code}${incrementId}`;
+  incrementId = `${payload.year}${payload.code}${incrementId}`;
 
-  return studentId;
+  return incrementId;
 };
