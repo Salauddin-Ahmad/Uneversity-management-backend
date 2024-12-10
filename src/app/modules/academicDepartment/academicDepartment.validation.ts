@@ -1,30 +1,30 @@
 import { z } from 'zod';
-const createAcademicFacultyValidationSchema = z.object({
+const createAcademicDepartmentValidationSchema = z.object({
   body: z.object({
     name: z.string({
-      invalid_type_error: 'Academic faculty must be a string',
-      required_error: 'Academic faculty name is required',
+      invalid_type_error: 'Academic Department must be a string',
+      required_error: 'Academic Department name is required',
     }),
-    academicfaculty: z.string({
-      invalid_type_error: 'Academic faculty must be a string',
-      required_error: 'Academic faculty is required',
+    academicDepartment: z.string({
+      invalid_type_error: 'Academic Department must be a string',
+      required_error: 'Academic Department is required',
     }),
   }),
 });
 const upateAcademicDepartmentValidationSchema = z.object({
   body: z.object({
     name: z.string({
-      invalid_type_error: 'Academic faculty must be a string',
-      required_error: 'Academic faculty name is required',
+      invalid_type_error: 'Academic Department must be a string',
+      required_error: 'Academic Department name is required',
     }).optional(),
-    academicfaculty: z.string({
-      invalid_type_error: 'Academic faculty must be a string',
-      required_error: 'Academic faculty is required',
+    academicDepartment: z.string({
+      invalid_type_error: 'Academic Department must be a string',
+      required_error: 'Academic Department is required',
     }).optional(),
   }),
   
 });
-export const academicFacultyValidation = {
-  createAcademicFacultyValidationSchema,
-  upateAcademicDepartmentValidationSchema,
+export const academicDepartmentValidation = {
+  createAcademicDepartmentValidationSchema,
+  patchAcademicDepartmentValidationSchema,
 };

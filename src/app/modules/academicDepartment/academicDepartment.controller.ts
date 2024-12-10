@@ -1,64 +1,64 @@
 import { NextFunction, Request, Response } from 'express';
 import catchAsync from '../../utils/catchAsync';
-import { AcademicFacultyServices } from './academicFaculty.service';
+import { AcademicDepartmentServices } from './academicDepartment.service';
 
-const createAcademicFaculty = catchAsync(
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const result = await AcademicFacultyServices.createAcademicFacultyIntoDB(
+const createAcademicDepartment = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const result = await AcademicDepartmentServices.createAcademicDepartmentIntoDB(
       req.body,
     );
 
     res.status(201).json({
       success: true,
-      message: 'Academic Faculty is created successfully',
+      message: 'Academic Department is created successfully',
       data: result,
     });
   },
 );
 
-const getAllAcademicFaculties = catchAsync(
-  async (req: Request, res: Response, next: NextFunction): Promise<void> =>{
-    const result = await AcademicFacultyServices.getacademicFacultiesFromDb();
+const getAllAcademicDepartments = catchAsync(
+  async (req: Request, res: Response): Promise<void> =>{
+    const result = await AcademicDepartmentServices.getacademicDepartmentFromDb();
 
     res.status(201).json({
       success: true,
-      message: 'Academic is Fetched successfully',
+      message: 'Academic Deparments are Fetched successfully',
       data: result,
     });
   },
 );
-const getSingleacademicFaculty = catchAsync(
-  async (req: Request, res: Response, next: NextFunction): Promise<void> =>{
-    const {facultyId} = req.params;
+const getSingleacademicDepartment = catchAsync(
+  async (req: Request, res: Response): Promise<void> =>{
+    const {DepartmentId} = req.params;
 
     const result = 
-    await AcademicFacultyServices.getSingleacademicFacultyFromDb(facultyId);
+    await AcademicDepartmentServices.getSingleAcademicDepartmentFromDb(DepartmentId);
 
     res.status(201).json({
       success: true,
-      message: 'Academic Faculty is Fetched successfully',
+      message: 'Academic Department is Fetched successfully',
       data: result,
     });
   },
 );
-const patchSingleAcademicFaculty = catchAsync(
+const patchSingleAcademicDepartment = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
-    const { facultyId } = req.params; // Extract `id`
+    const { DepartmentId } = req.params; // Extract `id`
     const payload = req.body; // Extract `payload`
 
-    const result = await AcademicFacultyServices.patchacademicFacultyFromDb(facultyId, payload);
+    const result = await AcademicDepartmentServices.patchAcademicDepartmentFromDb(DepartmentId, payload);
 
     res.status(200).json({
       success: true,
-      message: 'Academic Faculty updated successfully',
+      message: 'Academic Department updated successfully',
       data: result,
     });
   },
 );
 
-export const AcademicFacultyController = {
-    createAcademicFaculty,
-    getAllAcademicFaculties,
-    getSingleacademicFaculty,
-    patchSingleAcademicFaculty
+export const AcademicDepartmentController = {
+    createAcademicDepartment: createAcademicDepartment,
+    getAllAcademicDepartments,
+    getSingleacademicDepartment,
+    patchSingleAcademicDepartment
 };
