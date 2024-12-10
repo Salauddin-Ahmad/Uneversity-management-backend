@@ -29,7 +29,7 @@ const getAllAcademicFaculties = catchAsync(
 );
 const getSingleacademicFaculty = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> =>{
-    const facultyId = req.params;
+    const {facultyId} = req.params;
 
     const result = 
     await AcademicFacultyServices.getSingleacademicFacultyFromDb(facultyId);
@@ -61,5 +61,4 @@ export const AcademicFacultyController = {
     getAllAcademicFaculties,
     getSingleacademicFaculty,
     patchSingleAcademicFaculty
-
 };

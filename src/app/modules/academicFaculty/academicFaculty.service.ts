@@ -15,8 +15,8 @@ const getacademicFacultiesFromDb = async () => {
   const result = await AcademicFaculty.find();
   return result;
 };
-const getSingleacademicFacultyFromDb = async (facultyId: any) => {
-  const result = await AcademicFaculty.findById({ _id: facultyId });
+const getSingleacademicFacultyFromDb = async (facultyId: string) => {
+  const result = await AcademicFaculty.findById(facultyId );
   return result;
 };
 const patchacademicFacultyFromDb = async (
