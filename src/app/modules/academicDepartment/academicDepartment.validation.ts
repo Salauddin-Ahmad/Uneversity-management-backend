@@ -11,7 +11,7 @@ const createAcademicDepartmentValidationSchema = z.object({
     }),
   }),
 });
-const upateAcademicDepartmentValidationSchema = z.object({
+const patchAcademicDepartmentValidationSchema = z.object({
   body: z.object({
     name: z.string({
       invalid_type_error: 'Academic Department must be a string',
