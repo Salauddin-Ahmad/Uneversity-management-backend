@@ -51,47 +51,48 @@ const BloodGroupEnum = z.enum([
 ]);
 
 // Student Schema
-// export const createStudentValidationSchema = z.object({
-//   body: z.object({
-//     password: z.string().max(20),
-//     student: z.object({
-//       name: userNameValidationSchema,
-//       gender: GenderEnum,
-//       dateOfBirth: z.string().optional(),
-//       email: z.string().email('Invalid email address.'),
-//       contactNo: z.string().min(1, 'Contact number is required.'),
-//       emergencyContactNo: z
-//         .string()
-//         .min(1, 'Emergency contact number is required.'),
-//       bloodGroup: BloodGroupEnum,
-//       presentAddress: z.string().min(1, 'Present address is required.'),
-//       guardian: guardianValidationSchema,
-//       localGuardian: localGuardianValidationSchema,
-//       profileImage: z.string().min(1, 'Profile image is required.'),
-//       admissionSemester: z.string(),
-//     })
-//   }),
-// });
 export const createStudentValidationSchema = z.object({
-  password: z.string().max(20),
-  student: z.object({
-    name: userNameValidationSchema,
-    gender: GenderEnum,
-    dateOfBirth: z.string().optional(),
-    email: z.string().email('Invalid email address.'),
-    contactNo: z.string().min(1, 'Contact number is required.'),
-    emergencyContactNo: z
-      .string()
-      .min(1, 'Emergency contact number is required.'),
-    bloodGroup: BloodGroupEnum,
-    presentAddress: z.string().min(1, 'Present address is required.'),
-    guardian: guardianValidationSchema,
-    localGuardian: localGuardianValidationSchema,
-    profileImage: z.string().min(1, 'Profile image is required.'),
-    admissionSemester: z.string(),
+  body: z.object({
+    password: z.string().max(20),
+    student: z.object({
+      name: userNameValidationSchema,
+      gender: GenderEnum,
+      dateOfBirth: z.string().optional(),
+      email: z.string().email('Invalid email address.'),
+      contactNo: z.string().min(1, 'Contact number is required.'),
+      emergencyContactNo: z
+        .string()
+        .min(1, 'Emergency contact number is required.'),
+      bloodGroup: BloodGroupEnum,
+      presentAddress: z.string().min(1, 'Present address is required.'),
+      guardian: guardianValidationSchema,
+      localGuardian: localGuardianValidationSchema,
+      profileImage: z.string().min(1, 'Profile image is required.'),
+      admissionSemester: z.string(),
+      academicDepartment: z.string(),
+    }),
   }),
 });
-
+// export const createStudentValidationSchema = z.object({
+//   password: z.string().max(20),
+//   student: z.object({
+//     name: userNameValidationSchema,
+//     gender: GenderEnum,
+//     dateOfBirth: z.string().optional(),
+//     email: z.string().email('Invalid email address.'),
+//     contactNo: z.string().min(1, 'Contact number is required.'),
+//     emergencyContactNo: z
+//       .string()
+//       .min(1, 'Emergency contact number is required.'),
+//     bloodGroup: BloodGroupEnum,
+//     presentAddress: z.string().min(1, 'Present address is required.'),
+//     guardian: guardianValidationSchema,
+//     localGuardian: localGuardianValidationSchema,
+//     profileImage: z.string().min(1, 'Profile image is required.'),
+//     admissionSemester: z.string(),
+//     academicDepartment: z.string(),
+//   }),
+// });
 
 export const studentValidations = {
   createStudentValidationSchema,

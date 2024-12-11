@@ -1,4 +1,4 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import {
   TStudent,
   TUserName,
@@ -151,7 +151,10 @@ const studentSchema = new Schema<TStudent, studentModel>(
       type: Schema.Types.ObjectId,
       ref: 'AcademicSemester',
     },
-
+    academicDepartment: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicDepartment',
+    },
     isDeleted: {
       type: Boolean,
       default: false,

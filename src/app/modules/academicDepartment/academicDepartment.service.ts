@@ -1,30 +1,25 @@
-import { TacademicDepartment } from "./academicDepartment.interface";
-import { AcademicDepartment } from "./academicDepartment.model";
-
+import { TacademicDepartment } from './academicDepartment.interface';
+import { AcademicDepartment } from './academicDepartment.model';
 
 const createAcademicDepartmentIntoDB = async (payload: TacademicDepartment) => {
-
-
-
 
   const result = await AcademicDepartment.create(payload);
   return result;
 };
 
 const getacademicDepartmentFromDb = async () => {
-  const result = await AcademicDepartment.find();
+  const result = await AcademicDepartment.find().populate('academicFaculty');
   return result;
 };
 const getSingleAcademicDepartmentFromDb = async (facultyId: string) => {
-  const result = await AcademicDepartment.findById(facultyId );
+  const result = await AcademicDepartment.findById(facultyId);
   return result;
 };
 const patchAcademicDepartmentFromDb = async (
   id: string,
   payload: Partial<TacademicDepartment>,
 ) => {
-  
-    const result = await AcademicDepartment.findByIdAndUpdate(
+  const result = await AcademicDepartment.findByIdAndUpdate(
     { _id: id },
     payload,
     {
@@ -36,7 +31,7 @@ const patchAcademicDepartmentFromDb = async (
 };
 
 export const AcademicDepartmentServices = {
-   createAcademicDepartmentIntoDB,
+  createAcademicDepartmentIntoDB,
   getacademicDepartmentFromDb,
   getSingleAcademicDepartmentFromDb,
   patchAcademicDepartmentFromDb,
