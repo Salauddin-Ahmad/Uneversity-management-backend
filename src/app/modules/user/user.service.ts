@@ -94,9 +94,11 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
       await session.endSession();
 
       return newStudent;
-    } catch (error) {
+    } catch (error: any) {
       await session.abortTransaction();
       await session.endSession();
+      throw new Error(`Error creating student: ${error.message}`);
+
     }
 
     // Generate student ID

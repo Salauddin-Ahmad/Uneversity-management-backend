@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { StudentModel } from './student.model';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
+import { TStudent } from './student.interface';
 
 //  ALL THE SERIVICES OR METHODDS
 
@@ -22,7 +23,7 @@ const getSingleStudentById = async (id: string) => {
   //   { $match: {id: id} }
   // ]);
 
-  const result = await StudentModel.findById(id)
+  const result = await StudentModel.findOne({id})
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -34,11 +35,55 @@ const getSingleStudentById = async (id: string) => {
   return result;
 };
 
+
+const updateStudentIntoDb= async (id: string, payload: Partial<TStudent>) => {
+
+  const {name, guardian, localGuardian,
+     ...remainningStudentData} = payload;
+  const mofifiedUpdatedData : Record<string, unknown> = {
+    ...remainningStudentData,
+  }
+
+  if (name && Object.keys(name).length){
+    for(const [key, value] of Object.entries(name)){
+      mofifiedUpdatedData[`$name${key}`] = value;
+    }
+  }
+
+  if (guardian && Object.keys(guardian).length){
+    for(const [key, value] of Object.entries(guardian)){
+      mofifiedUpdatedData[`$name${key}`] = value;
+    }
+  }
+
+  if (localGuardian && Object.keys(localGuardian).length){
+    for(const [key, value] of Object.entries(localGuardian)){
+      mofifiedUpdatedData[`$name${key}`] = value;
+    }
+  }
+  console.log(mofifiedUpdatedData)
+   
+
+  const result = await StudentModel.findOneAndUpdate(
+    {id},
+     mofifiedUpdatedData, {
+      new: true,
+      runValidators: true,
+     });
+  return result;
+};
+
+
+
+
 const deleteStudentfromDB = async (id: string) => {
   const session = await mongoose.startSession();
   try {
 
     session.startTransaction();
+
+    // const  studentExist = await 
+    
 
     const deletedStudeent = await StudentModel.findOneAndUpdate(
       { id },
@@ -79,4 +124,5 @@ export const StudentServices = {
   getAllStudentsFromDB,
   getSingleStudentById,
   deleteStudentfromDB,
+  updateStudentIntoDb
 };
