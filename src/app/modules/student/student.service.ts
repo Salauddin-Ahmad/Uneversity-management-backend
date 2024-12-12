@@ -1,4 +1,7 @@
+import mongoose from 'mongoose';
 import { StudentModel } from './student.model';
+import AppError from '../../errors/AppError';
+import { User } from '../user/user.model';
 
 //  ALL THE SERIVICES OR METHODDS
 
@@ -20,7 +23,7 @@ const getSingleStudentById = async (id: string) => {
   // ]);
 
   const result = await StudentModel.findById(id)
-  .populate('admissionSemester')
+    .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
       populate: {
@@ -32,10 +35,44 @@ const getSingleStudentById = async (id: string) => {
 };
 
 const deleteStudentfromDB = async (id: string) => {
-  const result = await StudentModel.updateOne({ id }, { isDeleted: true });
+  const session = await mongoose.startSession();
+  try {
 
-  // return await BicycleSchema.findById(productId); // it can be used also
-  return result;
+    session.startTransaction();
+
+    const deletedStudeent = await StudentModel.findOneAndUpdate(
+      { id },
+      { isDeleted: true },
+      {new: true}
+
+    );
+
+    if (!deletedStudeent) {
+      throw new AppError(404,'Student not found');
+    }
+
+    const deletedUser = await User.findOneAndUpdate(
+      {id},
+      {isDeleted: true},
+      {new: true, session}
+    )
+
+    if (!deletedUser) {
+      throw new AppError(404,'Failed to delete user');
+    }
+
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    // return await BicycleSchema.findById(productId); // it can be used also
+    return deletedStudeent;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+
+    
+  }
 };
 
 export const StudentServices = {
