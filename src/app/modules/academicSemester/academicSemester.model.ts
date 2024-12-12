@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose';
 import { TAcademicSemester } from './academicSemester.interface';
 import { AcademicSemesterCode, AcademicSemesterName, Months } from './academicSemester.constants';
+import AppError from '../../errors/AppError';
 
 
 
@@ -47,7 +48,7 @@ const isSemesterExists = await  AcademicSemester.findOne({
 })
 
 if (isSemesterExists){
-  throw new Error('Academic Semester already exists');
+  throw new AppError(404,'Academic Semester already exists');
 }
 
 })
