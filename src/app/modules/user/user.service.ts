@@ -102,7 +102,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     }
 
     // Generate student ID
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Error creating student: ${error.message}`);
   }
 };
