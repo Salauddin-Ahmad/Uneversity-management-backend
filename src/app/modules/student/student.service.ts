@@ -36,42 +36,59 @@ const getSingleStudentById = async (id: string) => {
 };
 
 
-const updateStudentIntoDb= async (id: string, payload: Partial<TStudent>) => {
+const updateStudentIntoDb = async (id: string, payload: Partial<TStudent>) => {
+  const { name, guardian, localGuardian, ...remainningStudentData } = payload;
+  const mofifiedUpdatedData: Record<string, unknown> = { ...remainningStudentData };
 
-  const {name, guardian, localGuardian,
-     ...remainningStudentData} = payload;
-  const mofifiedUpdatedData : Record<string, unknown> = {
-    ...remainningStudentData,
-  }
-
-  if (name && Object.keys(name).length){
-    for(const [key, value] of Object.entries(name)){
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
       mofifiedUpdatedData[`name.${key}`] = value;
     }
   }
 
-  if (guardian && Object.keys(guardian).length){
-    for(const [key, value] of Object.entries(guardian)){
+  // if (name && Object.keys(name).length) {
+  //   const existingName = await StudentModel.findOne({ id }, { name: 1 });
+  //   const updatedName = { ...existingName?.name, ...name };
+  //   for (const [key, value] of Object.entries(updatedName)) {
+  //     mofifiedUpdatedData[`name.${key}`] = value;
+  //   }
+  // }
+
+  
+  
+  if (guardian && Object.keys(guardian).length) {
+    for (const [key, value] of Object.entries(guardian)) {
       mofifiedUpdatedData[`guardian.${key}`] = value;
     }
   }
 
-  if (localGuardian && Object.keys(localGuardian).length){
-    for(const [key, value] of Object.entries(localGuardian)){
+  if (localGuardian && Object.keys(localGuardian).length) {
+    for (const [key, value] of Object.entries(localGuardian)) {
       mofifiedUpdatedData[`localGuardian.${key}`] = value;
     }
   }
-  console.log(mofifiedUpdatedData)
-   
 
-  const result = await StudentModel.findOneAndUpdate(
-    {id},
-     mofifiedUpdatedData, {
-      new: true,
-      runValidators: true,
-     });
-  return result;
+  console.log('Update Payload:', payload);
+  console.log('Modified Update Data:', mofifiedUpdatedData);
+
+  try {
+    const result = await StudentModel.findOneAndUpdate(
+      { id },
+      mofifiedUpdatedData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    console.log('Update Result:', result);
+    return result;
+  } catch (error) {
+    console.error('Error during update:', error);
+    throw error;
+  }
 };
+
 
 
 
@@ -112,7 +129,7 @@ const deleteStudentfromDB = async (id: string) => {
 
     // return await BicycleSchema.findById(productId); // it can be used also
     return deletedStudeent;
-  } catch (error) {
+  } catch (error :any) {
     await session.abortTransaction();
     await session.endSession();
 

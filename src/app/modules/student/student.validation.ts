@@ -73,53 +73,9 @@ export const createStudentValidationSchema = z.object({
     }),
   }),
 });
-// export const createStudentValidationSchema = z.object({
-//   password: z.string().max(20),
-//   student: z.object({
-//     name: userNameValidationSchema,
-//     gender: GenderEnum,
-//     dateOfBirth: z.string().optional(),
-//     email: z.string().email('Invalid email address.'),
-//     contactNo: z.string().min(1, 'Contact number is required.'),
-//     emergencyContactNo: z
-//       .string()
-//       .min(1, 'Emergency contact number is required.'),
-//     bloodGroup: BloodGroupEnum,
-//     presentAddress: z.string().min(1, 'Present address is required.'),
-//     guardian: guardianValidationSchema,
-//     localGuardian: localGuardianValidationSchema,
-//     profileImage: z.string().min(1, 'Profile image is required.'),
-//     admissionSemester: z.string(),
-//     academicDepartment: z.string(),
-//   }),
-// });
-
-// export const updateStudentValidationSchema = z.object({
-//   body: z.object({
-//     password: z.string().max(20).optional(), // Password can be optional
-//     student: z.object({
-//       name: userNameValidationSchema.optional(),
-//       gender: GenderEnum,
-//       dateOfBirth: z.string().optional(), // Already optional
-//       email: z.string().email('Invalid email address.').optional(), // Email can be optional
-//       contactNo: z.string().min(1, 'Contact number is required.').optional(), // Optional if needed
-//       emergencyContactNo: z
-//         .string()
-//         .min(1, 'Emergency contact number is required.')
-//         .optional(), // Optional if needed
-//       bloodGroup: BloodGroupEnum.optional(), // Optional blood group
-//       presentAddress: z.string().min(1, 'Present address is required.').optional(), // Optional if needed
-//       guardian: guardianValidationSchema.optional(), // Optional guardian
-//       localGuardian: localGuardianValidationSchema.optional(), // Optional local guardian
-//       profileImage: z.string().min(1, 'Profile image is required.').optional(), // Optional if needed
-//       admissionSemester: z.string().optional(), // Optional semester
-//       academicDepartment: z.string().optional(), // Optional department
-//     }),
-//   }),
-// }); 
 
 export const updateStudentValidationSchema = z.object({
-  body: z.object({
+
     password: z.string().max(20).optional(), // Password can be optional
     student: z
       .object({
@@ -141,7 +97,7 @@ export const updateStudentValidationSchema = z.object({
         academicDepartment: z.string().optional(), // Department is optional
       })
       .optional(), // Mark student object as optional
-  }),
+
 });
 
 
