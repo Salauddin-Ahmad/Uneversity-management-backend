@@ -6,26 +6,33 @@ import { TStudent } from './student.interface';
 
 //  ALL THE SERIVICES OR METHODDS
 
-const getAllStudentsFromDB = async (query: Record<string,
-  unknown>) => {
+const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
+  // {email: {$regex: query.searchTerm, $optionsi i}}
+  // {presentAdress: {$regex: query.searchTerm, $options}}
+  // {'name.firstName': {$regex: query.searchTerm, $options}}
 
-    // {email: {$regex: query.searchTerm, $optionsi i}}
-    // {presentAdress: {$regex: query.searchTerm, $options}}
-    // {'name.firstName': {$regex: query.searchTerm, $options}}
+  const queryObj = { ...query }; //copy
+  const studentSearchableFields = ['email', 'name.firstName', 'presentAddress'];
 
-    let searchTerm = '';
+  let searchTerm = '';
 
-    if(query?.searchTerm){
-      searchTerm = query?.searchTerm as string;;
+  if (query?.searchTerm) {
+    searchTerm = query?.searchTerm as string;
+  }
 
-    }
+  const searchQuery = StudentModel.find({
+    $or: studentSearchableFields.map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  });
 
-  const result = await StudentModel.find({
-    $or: ['email', 'name.firstName', 'presentAddress']
-    .map((field) => ({
-      [field]: {$regex: searchTerm, $options: 'i'}
-    }))
-  })
+  // Filetering
+  const excludeFields = ['searchTerm', 'sort', 'limit'];
+  excludeFields.forEach((elem) => delete queryObj[elem]);
+  console.log({ query, queryObj });
+
+  const filterQuery = searchQuery
+    .find(queryObj)
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -33,15 +40,35 @@ const getAllStudentsFromDB = async (query: Record<string,
         path: 'academicFaculty',
       },
     });
-  return result;
+
+    let sort = '-createdAt'
+
+    if (query.sort){
+      sort = query.sort as string;
+    }
+
+    const sortQuery = filterQuery.sort(sort);
+
+    let limit = 1;
+    if (query.limit) {
+      limit = Number(query.limit); 
+    }
+    const limitQuery = await sortQuery.limit(limit);
+
+
+  return limitQuery;
 };
+
+
+
+
 
 const getSingleStudentById = async (id: string) => {
   // const result = await StudentModel.aggregate([
   //   { $match: {id: id} }
   // ]);
 
-  const result = await StudentModel.findOne({id})
+  const result = await StudentModel.findOne({ id })
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -53,10 +80,11 @@ const getSingleStudentById = async (id: string) => {
   return result;
 };
 
-
 const updateStudentIntoDb = async (id: string, payload: Partial<TStudent>) => {
   const { name, guardian, localGuardian, ...remainningStudentData } = payload;
-  const mofifiedUpdatedData: Record<string, unknown> = { ...remainningStudentData };
+  const mofifiedUpdatedData: Record<string, unknown> = {
+    ...remainningStudentData,
+  };
 
   if (name && Object.keys(name).length) {
     for (const [key, value] of Object.entries(name)) {
@@ -72,8 +100,6 @@ const updateStudentIntoDb = async (id: string, payload: Partial<TStudent>) => {
   //   }
   // }
 
-  
-  
   if (guardian && Object.keys(guardian).length) {
     for (const [key, value] of Object.entries(guardian)) {
       mofifiedUpdatedData[`guardian.${key}`] = value;
@@ -96,7 +122,7 @@ const updateStudentIntoDb = async (id: string, payload: Partial<TStudent>) => {
       {
         new: true,
         runValidators: true,
-      }
+      },
     );
 
     console.log('Update Result:', result);
@@ -107,51 +133,41 @@ const updateStudentIntoDb = async (id: string, payload: Partial<TStudent>) => {
   }
 };
 
-
-
-
-
 const deleteStudentfromDB = async (id: string) => {
   const session = await mongoose.startSession();
   try {
-
     session.startTransaction();
 
-    // const  studentExist = await 
-    
+    // const  studentExist = await
 
     const deletedStudeent = await StudentModel.findOneAndUpdate(
       { id },
       { isDeleted: true },
-      {new: true}
-
+      { new: true },
     );
 
     if (!deletedStudeent) {
-      throw new AppError(404,'Student not found');
+      throw new AppError(404, 'Student not found');
     }
 
     const deletedUser = await User.findOneAndUpdate(
-      {id},
-      {isDeleted: true},
-      {new: true, session}
-    )
+      { id },
+      { isDeleted: true },
+      { new: true, session },
+    );
 
     if (!deletedUser) {
-      throw new AppError(404,'Failed to delete user');
+      throw new AppError(404, 'Failed to delete user');
     }
-
 
     await session.commitTransaction();
     await session.endSession();
 
     // return await BicycleSchema.findById(productId); // it can be used also
     return deletedStudeent;
-  } catch (error :any) {
+  } catch (error: any) {
     await session.abortTransaction();
     await session.endSession();
-
-    
   }
 };
 
@@ -159,5 +175,5 @@ export const StudentServices = {
   getAllStudentsFromDB,
   getSingleStudentById,
   deleteStudentfromDB,
-  updateStudentIntoDb
+  updateStudentIntoDb,
 };
