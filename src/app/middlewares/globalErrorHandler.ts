@@ -1,18 +1,20 @@
-import { NextFunction, Request, Response } from 'express';
+// import { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
-import TerrorSources from '../interface/errorInterface';
 import config from '../config';
 import handleZodError from '../errors/handleZodError';
 import handleValidationError from '../errors/handleValidationError';
+import handleCastError from '../errors/handleCastError';
+import { TErrorSources } from '../interface/errorInterface';
+import handleDuplicateError from '../errors/handleDuplicateError';
 
 const globalErrorHandler = (
-  error: any,
-  req: Request,
-  res: Response,
-  next: NextFunction,
+  error,
+  req,
+  res,
+  next,
 ) => {
-  
-  let errorSources: TerrorSources = [
+
+  let errorSources: TErrorSources = [
     {
       path: '',
       message: '',
@@ -29,9 +31,24 @@ const globalErrorHandler = (
     const simplifiedZodError = handleZodError(error);
     statusCode = simplifiedZodError.statusCode;
     message = simplifiedZodError.message;
-  } else if (error?.name === 'validationError'){
+  } 
+  
+  else if (error?.name === 'validationError'){
 
     const simplifiedError = handleValidationError(error);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSources = simplifiedError.errorSources;
+  } 
+  
+  else if (error?.name === 'CastError'){
+    const simplifiedError = handleCastError(error);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSources = simplifiedError.errorSources;
+  }
+  else if (error?.code === 1100){
+    const simplifiedError = handleDuplicateError(error);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorSources = simplifiedError.errorSources;
