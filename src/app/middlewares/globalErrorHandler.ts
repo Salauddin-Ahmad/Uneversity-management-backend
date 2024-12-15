@@ -6,6 +6,7 @@ import handleValidationError from '../errors/handleValidationError';
 import handleCastError from '../errors/handleCastError';
 import { TErrorSources } from '../interface/errorInterface';
 import handleDuplicateError from '../errors/handleDuplicateError';
+import AppError from '../errors/AppError';
 
 const globalErrorHandler = (
   error,
@@ -53,6 +54,27 @@ const globalErrorHandler = (
     message = simplifiedError.message;
     errorSources = simplifiedError.errorSources;
   }
+  else if (error instanceof AppError ){
+    statusCode = error?.statusCode;
+    message = error.message;
+    errorSources = [{
+      path: '',
+    message: error?.message,
+  }]
+  }
+
+  else if (error instanceof Error ){
+    message = error.message;
+    errorSources = [{
+      path: '',
+    message: error?.message,
+  }]
+  }
+
+
+
+
+
   // ultimately returns this
   res.status(statusCode).json({
     success: false,
