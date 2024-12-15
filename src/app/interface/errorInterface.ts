@@ -1,6 +1,6 @@
-type TerrorSource = {
+type TerrorSources = {
     path: string | number;
     message: string;
   }[];
 
-export default TerrorSource
+export default TerrorSources
