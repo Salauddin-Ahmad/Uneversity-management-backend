@@ -61,13 +61,14 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
     }
     const paginateQuery = sortQuery.skip(skip)
     
+    const limitQuery =  paginateQuery.limit(limit);
+    
     // field Limitting
     let fields = '-__v';
     if(query.fields){
       fields = (query.fields as string).split(',').join(' ');
       console.log({fields})
     }
-    const limitQuery =  paginateQuery.limit(limit);
     
     
     const fieldQuery = await limitQuery.select(fields)
