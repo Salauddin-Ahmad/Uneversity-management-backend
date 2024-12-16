@@ -3,6 +3,8 @@ import { StudentModel } from './student.model';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TStudent } from './student.interface';
+import Querybuilder from '../../builder/Querybuilder';
+import { studentSearchableFields } from './students.constants';
 
 //  ALL THE SERIVICES OR METHODDS
 
@@ -11,75 +13,80 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   // {presentAdress: {$regex: query.searchTerm, $options}}
   // {'name.firstName': {$regex: query.searchTerm, $options}}
 
-  const queryObj = { ...query }; //copy
-  const studentSearchableFields = ['email', 'name.firstName', 'presentAddress'];
+  // const queryObj = { ...query }; //copy
+  // const studentSearchableFields = ['email', 'name.firstName', 'presentAddress'];
 
-  let searchTerm = '';
+  // let searchTerm = '';
 
-  if (query?.searchTerm) {
-    searchTerm = query?.searchTerm as string;
-  }
+  // if (query?.searchTerm) {
+  //   searchTerm = query?.searchTerm as string;
+  // }
 
-  const searchQuery = StudentModel.find({
-    $or: studentSearchableFields.map((field) => ({
-      [field]: { $regex: searchTerm, $options: 'i' },
-    })),
-  });
-  
-  // Filetering
-  const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
-  excludeFields.forEach((elem) => delete queryObj[elem]);
-  
-  const filterQuery = searchQuery
-    .find(queryObj)
-    .populate('admissionSemester')
-    .populate({
-      path: 'academicDepartment',
-      populate: {
-        path: 'academicFaculty',
-      },
-    });
-    
-    let sort = '-createdAt'
-    
-    if (query.sort){
-      sort = query.sort as string;
-    }
-    
-    const sortQuery = filterQuery.sort(sort);
-    
-    let page = 1;
-    let limit = 1;
-    let skip = 0;
-    if (query.limit) {
-      limit = Number(query.limit); 
-    }
-    if (query.page) {
-      page = Number(query.page);
-      skip = (page-1)*limit;
-    }
-    const paginateQuery = sortQuery.skip(skip)
-    
-    const limitQuery =  paginateQuery.limit(limit);
+  // const searchQuery = StudentModel.find({
+  //   $or: studentSearchableFields.map((field) => ({
+  //     [field]: { $regex: searchTerm, $options: 'i' },
+  //   })),
+  // });
 
-    // field Limitting
-    let fields = '-__v';
-    if(query.fields){
-      fields = (query.fields as string).split(',').join(' ');
-      console.log({fields})
-    }
-    
-    
-    const fieldQuery = await limitQuery.select(fields)
-    
-    
-    
-    return fieldQuery;
+  // // Filetering
+  // const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
+  // excludeFields.forEach((elem) => delete queryObj[elem]);
+
+  // const filterQuery = searchQuery
+  //   .find(queryObj)
+  //   .populate('admissionSemester')
+  //   .populate({
+  //     path: 'academicDepartment',
+  //     populate: {
+  //       path: 'academicFaculty',
+  //     },
+  //   });
+
+  // let sort = '-createdAt';
+
+  // if (query.sort) {
+  //   sort = query.sort as string;
+  // }
+
+  // const sortQuery = filterQuery.sort(sort);
+
+  // let page = 1;
+  // let limit = 1;
+  // let skip = 0;
+  // if (query.limit) {
+  //   limit = Number(query.limit);
+  // }
+  // if (query.page) {
+  //   page = Number(query.page);
+  //   skip = (page - 1) * limit;
+  // }
+  // const paginateQuery = sortQuery.skip(skip);
+
+  // const limitQuery = paginateQuery.limit(limit);
+
+  // // field Limitting
+  // let fields = '-__v';
+  // if (query.fields) {
+  //   fields = (query.fields as string).split(',').join(' ');
+  //   console.log({ fields });
+  // }
+
+  // const fieldQuery = await limitQuery.select(fields);
+
+  // return fieldQuery;
+
+  const studentQuery = new Querybuilder(
+    StudentModel.find(),
+    query)
+    .search(studentSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+    const result = await studentQuery.modelQuery
+    return result;
 };
-
-
-
-
 
 const getSingleStudentById = async (id: string) => {
   // const result = await StudentModel.aggregate([
