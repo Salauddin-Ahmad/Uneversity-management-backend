@@ -42,27 +42,30 @@ const deleteCourse = catchAsync(async (req, res): Promise<void> => {
     data: result,
   });
 });
-// const patchSingleAcademicFaculty = catchAsync(
-//   async (req, res) => {
-//     const { id } = req.params; // Extract `id`
-//     const payload = req.body; // Extract `payload`
 
-//     const result = await CourseServices.(
-//       id,
-//       payload,
-//     );
 
-//     res.status(200).json({
-//       success: true,
-//       message: 'Academic Faculty updated successfully',
-//       data: result,
-//     });
-//   },
-// );
+const updateCourse = catchAsync(
+  async (req, res) => {
+    const { id } = req.params; // Extract `id`
+    const payload = req.body; // Extract `payload`
+
+    const result = await CourseServices.(
+      id,
+      payload,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Course is updated successfully',
+      data: result,
+    });
+  },
+);
 
 export const courseControllers = {
   createCourse,
   getAllCourses,
   getSingleCourse,
-  deleteCourse
+  deleteCourse,
+  updateCourse
 };
