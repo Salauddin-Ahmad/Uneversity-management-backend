@@ -99,7 +99,7 @@ const getSingleStudentById = async (id: string) => {
   //   { $match: {id: id} }
   // ]);
 
-  const result = await StudentModel.findOne({ id })
+  const result = await StudentModel.findById( id )
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -147,8 +147,7 @@ const updateStudentIntoDb = async (id: string, payload: Partial<TStudent>) => {
   console.log('Modified Update Data:', mofifiedUpdatedData);
 
   try {
-    const result = await StudentModel.findOneAndUpdate(
-      { id },
+    const result = await StudentModel.findByIdAndUpdate(id,
       mofifiedUpdatedData,
       {
         new: true,
@@ -171,18 +170,20 @@ const deleteStudentfromDB = async (id: string) => {
 
     // const  studentExist = await
 
-    const deletedStudeent = await StudentModel.findOneAndUpdate(
-      { id },
+    const deletedStudent = await StudentModel.findByIdAndUpdate(
+       id ,
       { isDeleted: true },
       { new: true },
     );
 
-    if (!deletedStudeent) {
+    if (!deletedStudent) {
       throw new AppError(404, 'Student not found');
     }
 
-    const deletedUser = await User.findOneAndUpdate(
-      { id },
+    const userId = deletedStudent.user
+
+    const deletedUser = await User.findByIdAndUpdate(
+      userId,
       { isDeleted: true },
       { new: true, session },
     );
@@ -195,7 +196,7 @@ const deleteStudentfromDB = async (id: string) => {
     await session.endSession();
 
     // return await BicycleSchema.findById(productId); // it can be used also
-    return deletedStudeent;
+    return deletedStudent;
   } catch (error: any) {
     await session.abortTransaction();
     await session.endSession();
