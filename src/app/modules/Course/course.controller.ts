@@ -12,7 +12,7 @@ const createCourse = catchAsync(async (req, res) => {
 });
 
 const getAllCourses = catchAsync(async (req, res) => {
-  const result = await CourseServices.getAllCoursesFromDB();
+  const result = await CourseServices.getAllCoursesFromDB(req.query);
 
   res.status(201).json({
     success: true,
@@ -60,7 +60,7 @@ const deleteCourse = catchAsync(async (req, res): Promise<void> => {
 //   },
 // );
 
-export const courseController = {
+export const courseControllers = {
   createCourse,
   getAllCourses,
   getSingleCourse,
