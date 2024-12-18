@@ -1,4 +1,3 @@
-import { updateFacultyValidationSchema } from './../Faculty/faculty.validation';
 import express from 'express';
 import { CourseValidatioins } from './course.validation';
 import { courseControllers } from './course.controller';

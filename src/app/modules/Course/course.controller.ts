@@ -49,7 +49,7 @@ const updateCourse = catchAsync(
     const { id } = req.params; // Extract `id`
     const payload = req.body; // Extract `payload`
 
-    const result = await CourseServices.(
+    const result = await CourseServices.updateCourseIntoDb(
       id,
       payload,
     );
