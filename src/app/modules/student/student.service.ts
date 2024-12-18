@@ -123,13 +123,6 @@ const updateStudentIntoDb = async (id: string, payload: Partial<TStudent>) => {
     }
   }
 
-  // if (name && Object.keys(name).length) {
-  //   const existingName = await StudentModel.findOne({ id }, { name: 1 });
-  //   const updatedName = { ...existingName?.name, ...name };
-  //   for (const [key, value] of Object.entries(updatedName)) {
-  //     mofifiedUpdatedData[`name.${key}`] = value;
-  //   }
-  // }
 
   if (guardian && Object.keys(guardian).length) {
     for (const [key, value] of Object.entries(guardian)) {
