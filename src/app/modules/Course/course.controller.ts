@@ -44,23 +44,23 @@ const deleteCourse = catchAsync(async (req, res): Promise<void> => {
 });
 
 
-const updateCourse = catchAsync(
-  async (req, res) => {
-    const { id } = req.params; // Extract `id`
-    const payload = req.body; // Extract `payload`
+  const updateCourse = catchAsync(
+    async (req, res) => {
+      const { id } = req.params; // Extract `id`
+      const payload = req.body; 
+  
+     const result = await CourseServices.updateCourseIntoDb(
+        id,
+        payload,
+      );
 
-    const result = await CourseServices.updateCourseIntoDb(
-      id,
-      payload,
-    );
-
-    res.status(200).json({
-      success: true,
-      message: 'Course is updated successfully',
-      data: result,
-    });
-  },
-);
+      res.status(200).json({
+        success: true,
+        message: 'Course is updated successfully',
+        data: result,
+      });
+    },
+  );
 
 export const courseControllers = {
   createCourse,

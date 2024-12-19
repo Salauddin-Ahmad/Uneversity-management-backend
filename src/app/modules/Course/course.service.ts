@@ -40,81 +40,65 @@ const deleteCoursesfromDB = async (id: string) => {
   return result;
 };
 
-// const updateCourseIntoDb = async (id: string, payload: Partial<Tcourse>) => {
+const updateCourseIntoDb = async (id: string, payload: Partial<Tcourse>) => {
 
-//     const {preRequisiteCourses, ...courseRemainingData} =  payload;
+    const {preRequisiteCourses, ...courseRemainingData} =  payload;
 
 
 
-//     // step 1: basic course information update
-//     const updateBasicCourseInfo = await Course.findByIdAndUpdate(
-//         id,
-//         courseRemainingData,
-//         { 
-//             new: true,
-//             runValidators: true,
-//         }
-//     );
-//     // check if there is any pre requisite courses to update
-//     console.log(preRequisiteCourses)
-//     if (preRequisiteCourses && preRequisiteCourses.length > 0){
-//       // filter out the deleted fields
-//       const deletedPrerequisites = preRequisiteCourses.filter(elem => elem.course && elem.isDeleted).map(elem => elem.course)
+    // step 1: basic course information update
+    const updateBasicCourseInfo = await Course.findByIdAndUpdate(
+        id,
+        courseRemainingData,
+        { 
+            new: true,
+            runValidators: true,
+        }
+    );
+    // check if there is any pre requisite courses to update
+    // console.log(preRequisiteCourses)
+    if (preRequisiteCourses && preRequisiteCourses.length > 0){
+      // filter out the deleted fields
+      const deletedPrerequisites = preRequisiteCourses.filter(elem => elem.course && elem.isDeleted).map(elem => elem.course)
      
 
-//       const deletedPrerequisiteCourses = await Course.findByIdAndUpdate(
-//         id,
-//         {
-//           $pull: { preRequisiteCourses: {course: {$in: deletedPrerequisites} } },
-//         },
-//         {
-//           new: true,
-//           runValidators: true,
-//         },
-//       ) 
+      const deletedPrerequisiteCourses = await Course.findByIdAndUpdate(
+        id,
+        {
+          $pull: { preRequisiteCourses: {course: {$in: deletedPrerequisites} } },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      ) 
 
-//       if (!deletedPrerequisiteCourses) {
-//         throw new AppError(404, 'Failed to update course!');
-//       }
+      // filter out the new course fields
 
-//     }
+      const newPrerequisites = preRequisiteCourses.filter(elem => elem.course &&!elem.isDeleted).map(elem => ({...elem, isDeleted: false }))
+      console.log('NEW:', newPrerequisites)
+
+      const newPrerequisiteCourses = await Course.findByIdAndUpdate(id,
+        {
+          $addToset: {preRequisiteCourses: {$each: newPrerequisites} }
+        }
+      )
 
 
-//     return updateBasicCourseInfo
 
-// }
-const updateCourseIntoDb = async (id: string, payload: Partial<Tcourse>) => {
-  try {
-    const { preRequisiteCourses, ...courseRemainingData } = payload;
 
-    console.log("Updating basic course info...");
-    const updateBasicCourseInfo = await Course.findByIdAndUpdate(
-      id,
-      courseRemainingData,
-      { new: true, runValidators: true }
-    );
-
-    if (preRequisiteCourses && preRequisiteCourses.length > 0) {
-      const deletedPrerequisites = preRequisiteCourses
-        .filter((elem) => elem.course && elem.isDeleted)
-        .map((elem) => elem.course);
-
-      if (deletedPrerequisites.length > 0) {
-        console.log("Performing prerequisite deletion...");
-        await Course.updateOne(
-          { _id: id },
-          { $pull: { preRequisiteCourses: { course: { $in: deletedPrerequisites } } } }
-        );
+      if (!deletedPrerequisiteCourses) {
+        throw new AppError(404, 'Failed to update course!');
       }
+
     }
 
-    console.log("Course updated successfully!");
-    return updateBasicCourseInfo;
-  } catch (error) {
-    console.error("Error during course update:", error);
-    throw new Error("Failed to update course!");
-  }
-};
+    const result = await Course.findById(id).populate('preRequisiteCourses.course')
+
+    return result
+
+}
+
 
 export const CourseServices = {
   createCourseIntoDB,
