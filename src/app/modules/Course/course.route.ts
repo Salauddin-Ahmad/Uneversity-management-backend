@@ -24,4 +24,6 @@ router.patch(
   courseControllers.updateCourse,
 );
 
+router.put('/:courseId/assign-faculties',courseControllers.assignFacultiesWithCourse)
+
 export const courseRoutes = router;

@@ -1,8 +1,9 @@
+import mongoose from 'mongoose';
 import Querybuilder from '../../builder/Querybuilder';
 import AppError from '../../errors/AppError';
 import { CourseSearchableFields } from './course.constants';
-import { Tcourse } from './course.interface';
-import { Course } from './course.model';
+import { Tcourse, TcourseFaculty } from './course.interface';
+import { Course, CourseFaculty } from './course.model';
 
 const createCourseIntoDB = async (payload: Tcourse) => {
   const result = await Course.create(payload);
@@ -41,64 +42,96 @@ const deleteCoursesfromDB = async (id: string) => {
 };
 
 const updateCourseIntoDb = async (id: string, payload: Partial<Tcourse>) => {
+  const { preRequisiteCourses, ...courseRemainingData } = payload;
 
-    const {preRequisiteCourses, ...courseRemainingData} =  payload;
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-
-
+  try {
     // step 1: basic course information update
     const updateBasicCourseInfo = await Course.findByIdAndUpdate(
-        id,
-        courseRemainingData,
-        { 
-            new: true,
-            runValidators: true,
-        }
+      id,
+      courseRemainingData,
+      {
+        new: true,
+        runValidators: true,
+        session,
+      },
     );
+
+    if (!updateBasicCourseInfo) {
+      throw new AppError(404, 'Course update failed');
+    }
     // check if there is any pre requisite courses to update
     // console.log(preRequisiteCourses)
-    if (preRequisiteCourses && preRequisiteCourses.length > 0){
+    if (preRequisiteCourses && preRequisiteCourses.length > 0) {
       // filter out the deleted fields
-      const deletedPrerequisites = preRequisiteCourses.filter(elem => elem.course && elem.isDeleted).map(elem => elem.course)
-     
+      const deletedPrerequisites = preRequisiteCourses
+        .filter((elem) => elem.course && elem.isDeleted)
+        .map((elem) => elem.course);
 
       const deletedPrerequisiteCourses = await Course.findByIdAndUpdate(
         id,
         {
-          $pull: { preRequisiteCourses: {course: {$in: deletedPrerequisites} } },
+          $pull: {
+            preRequisiteCourses: { course: { $in: deletedPrerequisites } },
+          },
         },
         {
           new: true,
           runValidators: true,
+          session,
         },
-      ) 
-
-      // filter out the new course fields
-
-      const newPrerequisites = preRequisiteCourses.filter(elem => elem.course &&!elem.isDeleted).map(elem => ({...elem, isDeleted: false }))
-      console.log('NEW:', newPrerequisites)
-
-      const newPrerequisiteCourses = await Course.findByIdAndUpdate(id,
-        {
-          $addToset: {preRequisiteCourses: {$each: newPrerequisites} }
-        }
-      )
-
-
-
-
+      );
       if (!deletedPrerequisiteCourses) {
         throw new AppError(404, 'Failed to update course!');
       }
 
+      // filter out the new course fields
+
+      const newPrerequisites = preRequisiteCourses
+        .filter((elem) => elem.course && !elem.isDeleted)
+        .map((elem) => ({ ...elem, isDeleted: false }));
+      console.log('NEW:', newPrerequisites);
+
+      const newPrerequisiteCourses = await Course.findByIdAndUpdate(id, {
+        $addToset: { preRequisiteCourses: { $each: newPrerequisites } },
+      });
+
+      if (!newPrerequisiteCourses) {
+        throw new AppError(404, 'Failed to update preRequisites!');
+      }
+
+      const result = await Course.findById(id).populate(
+        'preRequisiteCourses.course',
+      );
+      return result;
+
+      
     }
+    await  session.commitTransaction();
+    await session.endSession();
 
-    const result = await Course.findById(id).populate('preRequisiteCourses.course')
+  } catch (error: any) {
+    await  session.abortTransaction();
+    await session.endSession();
+    throw new AppError(404, 'Failed to update');
+  }
+};
 
-    return result
+const assignFacultiesWithCourseIntoDB = async (id: string, payload: Partial<TcourseFaculty>) => {
 
+  const result = await CourseFaculty.findByIdAndUpdate(
+    id,
+    {
+      $addToSet: {faculties: {$each: payload}},
+    }, {
+      upsert: true,
+      new: true,
+    }
+  );
+ return result;
 }
-
 
 export const CourseServices = {
   createCourseIntoDB,
@@ -106,4 +139,6 @@ export const CourseServices = {
   getSingleCoursesFromDB,
   deleteCoursesfromDB,
   updateCourseIntoDb,
+  assignFacultiesWithCourseIntoDB,
+  
 };
