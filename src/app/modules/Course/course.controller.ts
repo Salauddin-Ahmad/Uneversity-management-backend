@@ -1,5 +1,6 @@
-import catchAsync from '../../utils/catchAsync';
-import { CourseServices } from './course.service';
+import catchAsync from "../../utils/catchAsync";
+import { CourseServices } from "./course.service";
+
 
 const createCourse = catchAsync(async (req, res) => {
   const result = await CourseServices.createCourseIntoDB(req.body);
