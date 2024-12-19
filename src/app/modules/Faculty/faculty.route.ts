@@ -1,9 +1,18 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
+import { createFacultyValidationSchema, updateFacultyValidationSchema } from './faculty.validation';
 import { FacultyControllers } from './faculty.controller';
-import { updateFacultyValidationSchema } from './faculty.validation';
+
 
 const router = express.Router();
+
+
+router.post(
+  '/create-facultie',
+  validateRequest(createFacultyValidationSchema),
+  FacultyControllers.createfaculty,
+);
+
 
 router.get('/:id', FacultyControllers.getSingleFaculty);
 

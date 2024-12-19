@@ -1,13 +1,48 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import mongoose from 'mongoose';
 
 import Querybuilder from '../../builder/Querybuilder';
 import { Faculty } from './faculty.model';
 import { FacultySearchableFields } from './faculty.constant';
-import { TFaculty } from './faculty.interface';
+import { TFaculty, } from './faculty.interface';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
+
+
+
+
+//  const createFaculty = async (facultyData: TFaculty) => {
+//   try {
+//     // Check if a faculty with the same email or ID already exists
+//     const existingFaculty = await Faculty.findOne({
+//       $or: [{ email: facultyData.email }, { id: facultyData.id }],
+//     });
+
+//     if (existingFaculty) {
+//       throw new Error('A faculty with this email or ID already exists.');
+//     }
+
+//     // Create the faculty
+//     const newFaculty = new Faculty(facultyData);
+//     return await newFaculty.save();
+//   } catch (error) {
+//     throw new Error(`Failed to create faculty: ${error.message}`);
+//   }
+// };
+
+const createFaculty = async (password: string, facultyData: any) => {
+  try {
+
+    // Create a new faculty instance with hashed password and provided faculty data
+    const newFaculty = await Faculty.create({
+      ...facultyData, // Store the hashed password
+    });
+
+    return newFaculty;
+  } catch (error) {
+    throw new Error(`Failed to create faculty: ${error.message}`);
+  }
+};
 
 const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
   const facultyQuery = new Querybuilder(
@@ -91,6 +126,7 @@ const deleteFacultyFromDB = async (id: string) => {
 };
 
 export const FacultyServices = {
+  createFaculty,
   getAllFacultiesFromDB,
   getSingleFacultyFromDB,
   updateFacultyIntoDB,

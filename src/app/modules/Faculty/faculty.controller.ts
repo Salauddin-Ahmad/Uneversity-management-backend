@@ -1,5 +1,28 @@
+
 import catchAsync from "../../utils/catchAsync";
 import { FacultyServices } from "./faculty.service";
+
+
+export const createfaculty = catchAsync(async (req, res) => {
+  const {password, faculty } = req.body
+  const newFaculty = await FacultyServices.createFaculty(
+    password,
+    faculty,
+    
+  );
+
+  res.status(201).json({
+    success: true,
+    message: 'Faculty created successfully.',
+    data: newFaculty,
+  });
+});
+
+
+
+
+
+
 
 
 const getSingleFaculty = catchAsync(async (req, res) => {
@@ -12,6 +35,8 @@ const getSingleFaculty = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+
 
 const getAllFaculties = catchAsync(async (req, res) => {
   const result = await FacultyServices.getAllFacultiesFromDB(req.query);
@@ -47,6 +72,7 @@ const deleteFaculty = catchAsync(async (req, res) => {
 });
 
 export const FacultyControllers = {
+  createfaculty,
   getAllFaculties,
   getSingleFaculty,
   deleteFaculty,

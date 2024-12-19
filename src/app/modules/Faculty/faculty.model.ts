@@ -25,13 +25,12 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
   {
     id: {
       type: String,
-      required: [true, 'ID is required'],
+      required: [false, 'ID is required'],
       unique: true,
     },
     user: {
       type: Schema.Types.ObjectId,
-      required: [true, 'User id is required'],
-      unique: true,
+      unique: false,
       ref: 'User',
     },
     designation: {
