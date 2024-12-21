@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
-import httpStatus from 'http-status';
-import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
 import { SemesterRegistrationService } from './semesterRegistration.service';
+import catchAsync from '../../utils/catchAsync';
 
 const createSemesterRegistration = catchAsync(
   async (req: Request, res: Response) => {
@@ -11,14 +9,13 @@ const createSemesterRegistration = catchAsync(
         req.body,
       );
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Semester Registration is created successfully!',
-      data: result,
-    });
-  },
-);
+      res.status(201).json({
+        success: true,
+        message: 'Semester Registration is created successfully!',
+        data: result,
+      });
+    },
+  );
 
 const getAllSemesterRegistrations = catchAsync(
   async (req: Request, res: Response) => {
@@ -27,15 +24,13 @@ const getAllSemesterRegistrations = catchAsync(
         req.query,
       );
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Semester Registration is retrieved successfully !',
-      meta: result.meta,
-      data: result.result,
-    });
-  },
-);
+      res.status(201).json({
+        success: true,
+        message: 'Semester Registration is created successfully!',
+        data: result,
+      });
+    },
+  );
 
 const getSingleSemesterRegistration = catchAsync(
   async (req: Request, res: Response) => {
@@ -46,14 +41,13 @@ const getSingleSemesterRegistration = catchAsync(
         id,
       );
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Semester Registration is retrieved successfully',
-      data: result,
-    });
-  },
-);
+      res.status(201).json({
+        success: true,
+        message: 'Semester Registration is created successfully!',
+        data: result,
+      });
+    },
+  );
 
 const updateSemesterRegistration = catchAsync(
   async (req: Request, res: Response) => {
@@ -64,14 +58,13 @@ const updateSemesterRegistration = catchAsync(
         req.body,
       );
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Semester Registration is updated successfully',
-      data: result,
-    });
-  },
-);
+      res.status(201).json({
+        success: true,
+        message: 'Semester Registration is created successfully!',
+        data: result,
+      });
+    },
+  );
 
 const deleteSemesterRegistration = catchAsync(
   async (req: Request, res: Response) => {
@@ -79,14 +72,13 @@ const deleteSemesterRegistration = catchAsync(
     const result =
       await SemesterRegistrationService.deleteSemesterRegistrationFromDB(id);
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Semester Registration is updated successfully',
-      data: result,
-    });
-  },
-);
+      res.status(201).json({
+        success: true,
+        message: 'Semester Registration is created successfully!',
+        data: result,
+      });
+    },
+  );
 
 export const SemesterRegistrationController = {
   createSemesterRegistration,
