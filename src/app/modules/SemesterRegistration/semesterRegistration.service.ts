@@ -24,7 +24,7 @@ const createSemesterRegistrationIntoDB = async (
   const isThereAnyUpcomingOrOngoingSEmester =
     await SemesterRegistration.findOne({
       $or: [
-        { status: RegistrationStatus.UPCOMING },
+        { status: RegistrationStatus.UPCOMING },  
         { status: RegistrationStatus.ONGOING },
       ],
     });

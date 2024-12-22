@@ -60,7 +60,7 @@ const updateSemesterRegistration = catchAsync(
 
       res.status(201).json({
         success: true,
-        message: 'Semester Registration is created successfully!',
+        message: 'Semester Registration is retrieved successfully!',
         data: result,
       });
     },
