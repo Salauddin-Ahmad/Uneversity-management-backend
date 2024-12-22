@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from 'mongoose';
 import { StatusCodes } from 'http-status-codes';
@@ -62,6 +61,7 @@ const createSemesterRegistrationIntoDB = async (
   const result = await SemesterRegistration.create(payload);
   return result;
 };
+
 
 
 
@@ -237,5 +237,3 @@ export const SemesterRegistrationService = {
   updateSemesterRegistrationIntoDB,
   deleteSemesterRegistrationFromDB,
 };
-
-

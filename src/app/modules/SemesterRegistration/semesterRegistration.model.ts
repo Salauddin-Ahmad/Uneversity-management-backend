@@ -40,4 +40,5 @@ const semesterRegistrationSchema = new mongoose.Schema<TSemesterRegistration>(
 export const SemesterRegistration = mongoose.model<TSemesterRegistration>(
   'SemesterRegistration',
   semesterRegistrationSchema,
+  'semesterRegistrations'
 );
