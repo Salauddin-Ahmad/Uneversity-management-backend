@@ -1,13 +1,13 @@
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import httpStatus from 'http-status';
 import mongoose from 'mongoose';
-import QueryBuilder from '../../builder/QueryBuilder';
-import AppError from '../../errors/AppError';
-import { AcademicSemester } from '../AcademicSemester/academicSemester.model';
-import { OfferedCourse } from '../OfferedCourse/OfferedCourse.model';
+import { StatusCodes } from 'http-status-codes';
 import { RegistrationStatus } from './semesterRegistration.constant';
 import { TSemesterRegistration } from './semesterRegistration.interface';
 import { SemesterRegistration } from './semesterRegistration.model';
+import AppError from '../../errors/AppError';
+import { AcademicSemester } from '../academicSemester/academicSemester.model';
+import Querybuilder from '../../builder/Querybuilder';
 
 const createSemesterRegistrationIntoDB = async (
   payload: TSemesterRegistration,
@@ -32,7 +32,7 @@ const createSemesterRegistrationIntoDB = async (
 
   if (isThereAnyUpcomingOrOngoingSEmester) {
     throw new AppError(
-      httpStatus.BAD_REQUEST,
+      StatusCodes.BAD_REQUEST,
       `There is aready an ${isThereAnyUpcomingOrOngoingSEmester.status} registered semester !`,
     );
   }
@@ -42,7 +42,7 @@ const createSemesterRegistrationIntoDB = async (
 
   if (!isAcademicSemesterExists) {
     throw new AppError(
-      httpStatus.NOT_FOUND,
+      StatusCodes.NOT_FOUND,
       'This academic semester not found !',
     );
   }
@@ -54,7 +54,7 @@ const createSemesterRegistrationIntoDB = async (
 
   if (isSemesterRegistrationExists) {
     throw new AppError(
-      httpStatus.CONFLICT,
+      StatusCodes.CONFLICT,
       'This semester is already registered!',
     );
   }
@@ -63,10 +63,12 @@ const createSemesterRegistrationIntoDB = async (
   return result;
 };
 
+
+
 const getAllSemesterRegistrationsFromDB = async (
   query: Record<string, unknown>,
 ) => {
-  const semesterRegistrationQuery = new QueryBuilder(
+  const semesterRegistrationQuery = new Querybuilder(
     SemesterRegistration.find().populate('academicSemester'),
     query,
   )
@@ -111,7 +113,7 @@ const updateSemesterRegistrationIntoDB = async (
   const isSemesterRegistrationExists = await SemesterRegistration.findById(id);
 
   if (!isSemesterRegistrationExists) {
-    throw new AppError(httpStatus.NOT_FOUND, 'This semester is not found !');
+    throw new AppError(StatusCodes.NOT_FOUND, 'This semester is not found !');
   }
 
   //if the requested semester registration is ended , we will not update anything
@@ -120,7 +122,7 @@ const updateSemesterRegistrationIntoDB = async (
 
   if (currentSemesterStatus === RegistrationStatus.ENDED) {
     throw new AppError(
-      httpStatus.BAD_REQUEST,
+      StatusCodes.BAD_REQUEST,
       `This semester is already ${currentSemesterStatus}`,
     );
   }
@@ -131,7 +133,7 @@ const updateSemesterRegistrationIntoDB = async (
     requestedStatus === RegistrationStatus.ENDED
   ) {
     throw new AppError(
-      httpStatus.BAD_REQUEST,
+      StatusCodes.BAD_REQUEST,
       `You can not directly change status from ${currentSemesterStatus} to ${requestedStatus}`,
     );
   }
@@ -141,7 +143,7 @@ const updateSemesterRegistrationIntoDB = async (
     requestedStatus === RegistrationStatus.UPCOMING
   ) {
     throw new AppError(
-      httpStatus.BAD_REQUEST,
+      StatusCodes.BAD_REQUEST,
       `You can not directly change status from ${currentSemesterStatus} to ${requestedStatus}`,
     );
   }
@@ -166,7 +168,7 @@ const deleteSemesterRegistrationFromDB = async (id: string) => {
 
   if (!isSemesterRegistrationExists) {
     throw new AppError(
-      httpStatus.NOT_FOUND,
+      StatusCodes.NOT_FOUND,
       'This registered semester is not found !',
     );
   }
@@ -176,7 +178,7 @@ const deleteSemesterRegistrationFromDB = async (id: string) => {
 
   if (semesterRegistrationStatus !== 'UPCOMING') {
     throw new AppError(
-      httpStatus.BAD_REQUEST,
+      StatusCodes.BAD_REQUEST,
       `You can not update as the registered semester is ${semesterRegistrationStatus}`,
     );
   }
@@ -199,7 +201,7 @@ const deleteSemesterRegistrationFromDB = async (id: string) => {
 
     if (!deletedOfferedCourse) {
       throw new AppError(
-        httpStatus.BAD_REQUEST,
+        StatusCodes.BAD_REQUEST,
         'Failed to delete semester registration !',
       );
     }
@@ -212,7 +214,7 @@ const deleteSemesterRegistrationFromDB = async (id: string) => {
 
     if (!deletedSemisterRegistration) {
       throw new AppError(
-        httpStatus.BAD_REQUEST,
+        StatusCodes.BAD_REQUEST,
         'Failed to delete semester registration !',
       );
     }
@@ -235,3 +237,5 @@ export const SemesterRegistrationService = {
   updateSemesterRegistrationIntoDB,
   deleteSemesterRegistrationFromDB,
 };
+
+
