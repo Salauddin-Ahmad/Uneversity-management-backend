@@ -70,8 +70,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   if (!isAcademicDepartmentExits) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Academic Department not found !');
   }
-
-  const isCourseExits = await Course.findById(course);
+   const isCourseExits = await Course.findById(course);
 
   if (!isCourseExits) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Course not found !');
@@ -348,6 +347,8 @@ const getSingleOfferedCourseFromDB = async (id: string) => {
   return offeredCourse;
 };
 
+
+
 const updateOfferedCourseIntoDB = async (
   id: string,
   payload: Pick<TOfferedCourse, 'faculty' | 'days' | 'startTime' | 'endTime'>,
@@ -412,6 +413,13 @@ const updateOfferedCourseIntoDB = async (
   });
   return result;
 };
+
+
+
+
+
+
+
 
 const deleteOfferedCourseFromDB = async (id: string) => {
   /**

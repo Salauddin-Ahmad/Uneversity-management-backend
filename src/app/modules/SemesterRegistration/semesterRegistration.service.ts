@@ -7,6 +7,7 @@ import { SemesterRegistration } from './semesterRegistration.model';
 import AppError from '../../errors/AppError';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import Querybuilder from '../../builder/Querybuilder';
+import { OfferedCourse } from '../OfferedCourse/OfferedCourse.model';
 
 const createSemesterRegistrationIntoDB = async (
   payload: TSemesterRegistration,
@@ -24,7 +25,7 @@ const createSemesterRegistrationIntoDB = async (
   const isThereAnyUpcomingOrOngoingSEmester =
     await SemesterRegistration.findOne({
       $or: [
-        { status: RegistrationStatus.UPCOMING },  
+        { status: RegistrationStatus.UPCOMING },
         { status: RegistrationStatus.ONGOING },
       ],
     });
@@ -61,9 +62,6 @@ const createSemesterRegistrationIntoDB = async (
   const result = await SemesterRegistration.create(payload);
   return result;
 };
-
-
-
 
 const getAllSemesterRegistrationsFromDB = async (
   query: Record<string, unknown>,
@@ -110,7 +108,7 @@ const updateSemesterRegistrationIntoDB = async (
 
   // check if the requested registered semester is exists
   // check if the semester is already registered!
-  const   isSemesterRegistrationExists = await SemesterRegistration.findById(id);
+  const isSemesterRegistrationExists = await SemesterRegistration.findById(id);
 
   if (!isSemesterRegistrationExists) {
     throw new AppError(StatusCodes.NOT_FOUND, 'This semester is not found !');
@@ -229,7 +227,6 @@ const deleteSemesterRegistrationFromDB = async (id: string) => {
     throw new Error(err);
   }
 };
-
 export const SemesterRegistrationService = {
   createSemesterRegistrationIntoDB,
   getAllSemesterRegistrationsFromDB,
