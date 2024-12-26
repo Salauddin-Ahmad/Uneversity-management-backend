@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import bcrypt from 'bcrypt';
-import { Schema, model } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 import { Tuser, UserModel } from './user.interface';
 import { UserStatus } from './user.constants';
 import config from '../../config';
@@ -67,23 +67,28 @@ userSchema.statics.isUserExistsByCustomId = async function (id: string) {
   return await User.findOne({ id }).select('+password');
 };
 
-userSchema.statics.isPasswordMatched = async function (
-  plainTextPassword,
-  hashedPassword,
-) {
-  return await bcrypt.compare(plainTextPassword, hashedPassword);
-};
+// userSchema.statics.isPasswordMatched = async function (
+//   plainTextPassword,
+//   hashedPassword,
+// ) {
+//   return await bcrypt.compare(plainTextPassword, hashedPassword);
+// };
 
-userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
-  passwordChangedTimestamp: Date,
-  jwtIssuedTimestamp: number,
-) {
-  const passwordChangedTime =
-    new Date(passwordChangedTimestamp).getTime() / 1000;
-  return passwordChangedTime > jwtIssuedTimestamp;
-};
+// userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
+//   passwordChangedTimestamp: Date,
+//   jwtIssuedTimestamp: number,
+// ) {
+//   const passwordChangedTime =
+//     new Date(passwordChangedTimestamp).getTime() / 1000;
+//   return passwordChangedTime > jwtIssuedTimestamp;
+// };
 
-export const User = model<Tuser, UserModel>('User', userSchema);
+// export const User = model<Tuser, UserModel>('User', userSchema);
+
+export const User = models.User || model<Tuser>('User', userSchema);
+
+
+
 
 // import bcrypt from 'bcrypt';
 // import { model, Schema } from "mongoose";

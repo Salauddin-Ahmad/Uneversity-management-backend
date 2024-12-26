@@ -1,4 +1,4 @@
-import { jwt } from 'jsonwebtoken';
+import { jwt, JwtPayload } from 'jsonwebtoken';
 // import StatusCodes from 'http-status';
 // import jwt, { JwtPayload } from 'jsonwebtoken';
 // import config from '../config';
@@ -10,6 +10,8 @@ import catchAsync from '../utils/catchAsync';
 import AppError from '../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
 import config from '../config';
+import { TuserRole } from '../modules/user/user.interface';
+import { User } from '../modules/user/user.model';
 
 const auth = (...requiredRoles: TuserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
