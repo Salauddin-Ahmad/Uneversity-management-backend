@@ -19,7 +19,7 @@ import { studentMethod, studentModel } from './student.interface';
 //   address: string;
 // };
 
-// export type TUserName = {
+// export type TuserName = {
 //   firstName: string;
 //   middleName?: string;
 //   lastName: string;
@@ -29,7 +29,7 @@ import { studentMethod, studentModel } from './student.interface';
 //   id: string;
 //   user: Types.ObjectId;
 //   password: string;
-//   name: TUserName;
+//   name: TuserName;
 //   gender: 'male' | 'female';
 //   dateOfBirth: Date;
 //   email: string;
@@ -45,7 +45,6 @@ import { studentMethod, studentModel } from './student.interface';
 //   academicDepartment?: Types.ObjectId; //
 //   isDeleted: boolean;
 // };
-
 
 export type TGurdian = {
   fatherName: string;
@@ -63,7 +62,7 @@ export type TLocalGurdian = {
   address: string;
 };
 
-export type TUserName = {
+export type TuserName = {
   firstName: string;
   middleName?: string; // Optional middle name
   lastName: string;
@@ -73,7 +72,7 @@ export type TStudent = {
   id: string; // Unique identifier
   user: Types.ObjectId; // Reference to User
   password: string; // Student password
-  name: TUserName; // Embedded object for name
+  name: TuserName; // Embedded object for name
   gender: 'male' | 'female'; // Gender enumeration
   dateOfBirth: Date; // Date of birth
   email: string; // Email
@@ -98,12 +97,6 @@ export interface studentModel extends Model<TStudent> {
    */
   isUserExists(id: string): Promise<TStudent | null>;
 }
-
-
-
-
-
-
 
 // export interface studentModel extends Model<TStudent> {
 //   isUserExists(id: string): Promise<TStudent | null>;

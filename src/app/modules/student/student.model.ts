@@ -1,14 +1,14 @@
 import { Schema, model } from 'mongoose';
 import {
   TStudent,
-  TUserName,
+  TuserName,
   TGurdian,
   studentModel,
   // studentMethods,
 } from './student.interface';
 import validator from 'validator';
 
-const userNameSchema = new Schema<TUserName>({
+const userNameSchema = new Schema<TuserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required.'],
@@ -170,7 +170,11 @@ const studentSchema = new Schema<TStudent, studentModel>(
 // virtual
 studentSchema.virtual('fullName').get(function () {
   return (
-    this?.name?.firstName + '' + this?.name?.middleName + '' + this?.name?.lastName
+    this?.name?.firstName +
+    '' +
+    this?.name?.middleName +
+    '' +
+    this?.name?.lastName
   );
 });
 
