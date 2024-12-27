@@ -1,4 +1,4 @@
-import StatusCodes from 'http-status';
+import StatusCodes from 'http-status-codes';
 import config from '../../config';
 import AppError from '../../errors/AppError';
 import catchAsync from '../../utils/catchAsync';

@@ -85,8 +85,10 @@ userSchema.statics.isUserExistsByCustomId = async function (id: string) {
 
 // export const User = model<Tuser, UserModel>('User', userSchema);
 
-export const User = models.User || model<Tuser>('User', userSchema);
+// export const User = models.User || model<Tuser>('User', userSchema);
 
+export const User =
+  (models.User as UserModel) || model<Tuser, UserModel>('User', userSchema);
 
 
 

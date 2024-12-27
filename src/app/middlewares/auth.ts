@@ -51,24 +51,24 @@ const auth = (...requiredRoles: TuserRole[]) => {
       throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
     }
 
-    if (
-      user.passwordChangedAt &&
-      User.isJWTIssuedBeforePasswordChanged(
-        user.passwordChangedAt,
-        iat as number,
-      )
-    ) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized !');
-    }
+    // if (
+    //   user.passwordChangedAt &&
+    //   User.isJWTIssuedBeforePasswordChanged(
+    //     user.passwordChangedAt,
+    //     iat as number,
+    //   )
+    // ) {
+    //   throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized !');
+    // }
 
-    if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(
-        StatusCodes.UNAUTHORIZED,
-        'You are not authorized  hi!',
-      );
-    }
+    // if (requiredRoles && !requiredRoles.includes(role)) {
+    //   throw new AppError(
+    //     StatusCodes.UNAUTHORIZED,
+    //     'You are not authorized  hi!',
+    //   );
+    // }
 
-    req.user = decoded as JwtPayload & { role: string };
+    // req.user = decoded as JwtPayload & { role: string };
     next();
   });
 };
