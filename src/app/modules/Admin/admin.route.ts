@@ -1,35 +1,38 @@
-// import express from 'express';
-// import { updateAdminValidationSchema } from './admin.validation';
-// import { AdminControllers } from './admin.controller';
-// import auth from '../../middlewares/auth';
-// import { USER_ROLE } from '../user/user.constants';
-// import validateRequest from '../../middlewares/validateRequest';
+import express from 'express';
+import auth from '../../middlewares/auth';
+import { USER_ROLE } from '../user/user.constants';
+import { AdminControllers } from './admin.controller';
+import validateRequest from '../../middlewares/validateRequest';
+import { updateAdminValidationSchema } from './admin.validation';
 
-// const router = express.Router();
 
-// router.get(
-//   '/',
-//   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
-//   AdminControllers.getAllAdmins,
-// );
+const router = express.Router();
 
-// router.get(
-//   '/:id',
-//   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
-//   AdminControllers.getSingleAdmin,
-// );
+router.get(
+  '/',
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  AdminControllers.getAllAdmins,
+);
 
-// router.patch(
-//   '/:id',
-//   auth(USER_ROLE.superAdmin),
-//   validateRequest(updateAdminValidationSchema),
-//   AdminControllers.updateAdmin,
-// );
+router.get(
+  '/:id',
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  AdminControllers.getSingleAdmin,
+);
 
-// router.delete(
-//   '/:adminId',
-//   auth(USER_ROLE.superAdmin),
-//   AdminControllers.deleteAdmin,
-// );
+router.patch(
+  '/:id',
+  auth(USER_ROLE.superAdmin),
+  validateRequest(updateAdminValidationSchema),
+  AdminControllers.updateAdmin,
+);
 
-// export const AdminRoutes = router;
+router.delete(
+  '/:adminId',
+  auth(USER_ROLE.superAdmin),
+  AdminControllers.deleteAdmin,
+);
+
+export const AdminRoutes = router;
+
+

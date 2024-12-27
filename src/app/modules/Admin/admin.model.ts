@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
-import { BloodGroup, Gender } from './admin.constant';
-import { AdminModel, TAdmin, TuserName } from './admin.interface';
+import { Schema } from "mongoose";
+import { AdminModel, TAdmin, TuserName } from "./admin.interface";
+import { BloodGroup, Gender } from "./admin.constant";
 
 const userNameSchema = new Schema<TuserName>({
   firstName: {

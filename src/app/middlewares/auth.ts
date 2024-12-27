@@ -1,17 +1,11 @@
-import { jwt, JwtPayload } from 'jsonwebtoken';
-// import StatusCodes from 'http-status';
-// import jwt, { JwtPayload } from 'jsonwebtoken';
-// import config from '../config';
-// import AppError from '../errors/AppError';
-// import { TuserRole } from '../modules/User/user.interface';
-// import { User } from '../modules/User/user.model';
-import { NextFunction, Request, Response } from 'express';
-import catchAsync from '../utils/catchAsync';
-import AppError from '../errors/AppError';
-import { StatusCodes } from 'http-status-codes';
-import config from '../config';
-import { TuserRole } from '../modules/user/user.interface';
-import { User } from '../modules/user/user.model';
+import { NextFunction, Request, Response } from "express";
+import { TuserRole } from "../modules/user/user.interface";
+import catchAsync from "../utils/catchAsync";
+import AppError from "../errors/AppError";
+import { StatusCodes } from "http-status-codes";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { User } from "../modules/user/user.model";
+import config from "../config";
 
 const auth = (...requiredRoles: TuserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -51,24 +45,24 @@ const auth = (...requiredRoles: TuserRole[]) => {
       throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
     }
 
-    // if (
-    //   user.passwordChangedAt &&
-    //   User.isJWTIssuedBeforePasswordChanged(
-    //     user.passwordChangedAt,
-    //     iat as number,
-    //   )
-    // ) {
-    //   throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized !');
-    // }
+    if (
+      user.passwordChangedAt &&
+      User.isJWTIssuedBeforePasswordChanged(
+        user.passwordChangedAt,
+        iat as number,
+      )
+    ) {
+      throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized !');
+    }
 
-    // if (requiredRoles && !requiredRoles.includes(role)) {
-    //   throw new AppError(
-    //     StatusCodes.UNAUTHORIZED,
-    //     'You are not authorized  hi!',
-    //   );
-    // }
+    if (requiredRoles && !requiredRoles.includes(role)) {
+      throw new AppError(
+        StatusCodes.UNAUTHORIZED,
+        'You are not authorized  hi!',
+      );
+    }
 
-    // req.user = decoded as JwtPayload & { role: string };
+    req.user = decoded as JwtPayload;
     next();
   });
 };

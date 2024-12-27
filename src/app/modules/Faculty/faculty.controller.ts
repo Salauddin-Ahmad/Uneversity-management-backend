@@ -26,6 +26,7 @@ export const createfaculty = catchAsync(async (req, res) => {
 
 
 const getSingleFaculty = catchAsync(async (req, res) => {
+  console.log('test', req.user)
   const { id } = req.params;
   const result = await FacultyServices.getSingleFacultyFromDB( id );
 
