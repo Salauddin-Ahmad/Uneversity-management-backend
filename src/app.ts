@@ -12,10 +12,10 @@ app.use('/api/v1/', router);
 
 
 
-const test = (req: Request, res: Response) => {
-  Promise.reject()
-};
-app.get('/', test);
+// const test = (req: Request, res: Response) => {
+//   Promise.reject()
+// };
+// app.get('/', test);
 
 app.use(globalErrorHandler)
 // app.use(notFound)

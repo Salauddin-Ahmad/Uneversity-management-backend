@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserService } from './user.service';
 import catchAsync from '../../utils/catchAsync';
 import { StatusCodes } from 'http-status-codes';
 import sendResponse from '../../utils/sendResponse';
+import { UserServices } from './user.service';
 
 const createStudent = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { password, student: studentData } = req.body;
 
-      const result = await UserService.createStudentIntoDB(
+      const result = await UserServices.createStudentIntoDB(
         password,
         studentData,
       );
@@ -29,8 +29,8 @@ const createStudent = catchAsync(
 const createAdmin = catchAsync(async (req, res) => {
   const { password, admin: adminData } = req.body;
 
-  const result = await UserService.createAdminIntoDB(
-    req.file,
+  const result = await UserServices.createAdminIntoDB(
+    // req.file,
     password,
     adminData,
   );

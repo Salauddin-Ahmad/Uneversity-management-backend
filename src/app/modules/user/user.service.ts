@@ -144,7 +144,7 @@ const createFacultyIntoDB = async (
 };
 
 const createAdminIntoDB = async (
-  file: any,
+  // file: any,
   password: string,
   payload: TAdmin,
 ) => {
@@ -165,13 +165,13 @@ const createAdminIntoDB = async (
     //set  generated id
     userData.id = await generateAdminId();
 
-    if (file) {
-      const imageName = `${userData.id}${payload?.name?.firstName}`;
-      const path = file?.path;
-      //send image to cloudinary
-      const { secure_url } = await sendImageToCloudinary(imageName, path);
-      payload.profileImg = secure_url as string;
-    }
+    // if (file) {  
+    //   const imageName = `${userData.id}${payload?.name?.firstName}`;
+    //   const path = file?.path;
+    //   //send image to cloudinary
+    //   const { secure_url } = await sendImageToCloudinary(imageName, path);
+    //   payload.profileImg = secure_url as string;
+    // }
 
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session });
