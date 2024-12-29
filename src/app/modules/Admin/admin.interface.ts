@@ -11,7 +11,7 @@ export type TBloodGroup =
   | 'O+'
   | 'O-';
 
-export type TuserName = {
+export type TUserName = {
   firstName: string;
   middleName: string;
   lastName: string;
@@ -21,7 +21,7 @@ export type TAdmin = {
   id: string;
   user: Types.ObjectId;
   designation: string;
-  name: TuserName;
+  name: TUserName;
   gender: TGender;
   dateOfBirth?: Date;
   email: string;

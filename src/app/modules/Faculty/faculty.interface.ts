@@ -11,17 +11,17 @@ export type TBloodGroup =
   | 'O+'
   | 'O-';
 
-export type TuserName = {
+export type TUserName = {
   firstName: string;
   middleName: string;
   lastName: string;
 };
 
 export type TFaculty = {
-  id?: string;
-  user?: Types.ObjectId;
+  id: string;
+  user: Types.ObjectId;
   designation: string;
-  name: TuserName;
+  name: TUserName;
   gender: TGender;
   dateOfBirth?: Date;
   email: string;
@@ -32,9 +32,11 @@ export type TFaculty = {
   permanentAddress: string;
   profileImg?: string;
   academicDepartment: Types.ObjectId;
+  academicFaculty: Types.ObjectId;
   isDeleted: boolean;
 };
 
 export interface FacultyModel extends Model<TFaculty> {
+  // eslint-disable-next-line no-unused-vars
   isUserExists(id: string): Promise<TFaculty | null>;
 }

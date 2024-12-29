@@ -1,8 +1,8 @@
-import { Schema } from "mongoose";
-import { AdminModel, TAdmin, TuserName } from "./admin.interface";
-import { BloodGroup, Gender } from "./admin.constant";
+import { model, Schema } from 'mongoose';
+import { AdminModel, TAdmin, TUserName } from './admin.interface';
+import { BloodGroup, Gender } from './admin.constant';
 
-const userNameSchema = new Schema<TuserName>({
+const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First Name is required'],

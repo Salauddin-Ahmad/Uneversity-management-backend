@@ -2,7 +2,7 @@
 import { Model } from 'mongoose';
 import { USER_ROLE } from './user.constants';
 
-export interface Tuser {
+export interface TUser {
   id: string;
   email: string;
   password: string;
@@ -13,9 +13,9 @@ export interface Tuser {
   isDeleted: boolean;
 }
 
-export interface UserModel extends Model<Tuser> {
+export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
-  isUserExistsByCustomId(id: string): Promise<Tuser>;
+  isUserExistsByCustomId(id: string): Promise<TUser>;
   //instance methods for checking if passwords are matched
   isPasswordMatched(
     plainTextPassword: string,
@@ -27,4 +27,4 @@ export interface UserModel extends Model<Tuser> {
   ): boolean;
 }
 
-export type TuserRole = keyof typeof USER_ROLE;
+export type TUserRole = keyof typeof USER_ROLE;

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import bcrypt from 'bcrypt';
 import { Schema, model, models } from 'mongoose';
-import { Tuser, UserModel } from './user.interface';
+import { TUser, UserModel } from './user.interface';
 import { UserStatus } from './user.constants';
 import config from '../../config';
-const userSchema = new Schema<Tuser, UserModel>(
+const userSchema = new Schema<TUser, UserModel>(
   {
     id: {
       type: String,
@@ -83,21 +83,19 @@ userSchema.statics.isUserExistsByCustomId = async function (id: string) {
 //   return passwordChangedTime > jwtIssuedTimestamp;
 // };
 
-// export const User = model<Tuser, UserModel>('User', userSchema);
+// export const User = model<TUser, UserModel>('User', userSchema);
 
-// export const User = models.User || model<Tuser>('User', userSchema);
+// export const User = models.User || model<TUser>('User', userSchema);
 
 export const User =
-  (models.User as UserModel) || model<Tuser, UserModel>('User', userSchema);
-
-
+  (models.User as UserModel) || model<TUser, UserModel>('User', userSchema);
 
 // import bcrypt from 'bcrypt';
 // import { model, Schema } from "mongoose";
-// import { Tuser } from "./user.interface";
+// import { TUser } from "./user.interface";
 // import config from "../../config";
 
-// const userSchema = new Schema<Tuser>({
+// const userSchema = new Schema<TUser>({
 //     id: {
 //         type: String,
 //         required: true,
@@ -150,4 +148,4 @@ export const User =
 //     next();
 //   })
 
-// export const User = model<Tuser>('User', userSchema)
+// export const User = model<TUser>('User', userSchema)

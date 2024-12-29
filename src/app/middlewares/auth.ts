@@ -1,13 +1,13 @@
-import { NextFunction, Request, Response } from "express";
-import { TuserRole } from "../modules/user/user.interface";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../errors/AppError";
-import { StatusCodes } from "http-status-codes";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { User } from "../modules/user/user.model";
-import config from "../config";
+import { NextFunction, Request, Response } from 'express';
+import { TUserRole } from '../modules/user/user.interface';
+import catchAsync from '../utils/catchAsync';
+import AppError from '../errors/AppError';
+import { StatusCodes } from 'http-status-codes';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { User } from '../modules/user/user.model';
+import config from '../config';
 
-const auth = (...requiredRoles: TuserRole[]) => {
+const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
 

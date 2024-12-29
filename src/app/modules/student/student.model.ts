@@ -1,14 +1,14 @@
 import { Schema, model } from 'mongoose';
 import {
   TStudent,
-  TuserName,
+  TUserName,
   TGurdian,
   studentModel,
   // studentMethods,
 } from './student.interface';
 import validator from 'validator';
 
-const userNameSchema = new Schema<TuserName>({
+const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required.'],

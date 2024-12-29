@@ -19,7 +19,7 @@ import { studentMethod, studentModel } from './student.interface';
 //   address: string;
 // };
 
-// export type TuserName = {
+// export type TUserName = {
 //   firstName: string;
 //   middleName?: string;
 //   lastName: string;
@@ -29,7 +29,7 @@ import { studentMethod, studentModel } from './student.interface';
 //   id: string;
 //   user: Types.ObjectId;
 //   password: string;
-//   name: TuserName;
+//   name: TUserName;
 //   gender: 'male' | 'female';
 //   dateOfBirth: Date;
 //   email: string;
@@ -62,7 +62,7 @@ export type TLocalGurdian = {
   address: string;
 };
 
-export type TuserName = {
+export type TUserName = {
   firstName: string;
   middleName?: string; // Optional middle name
   lastName: string;
@@ -72,7 +72,7 @@ export type TStudent = {
   id: string; // Unique identifier
   user: Types.ObjectId; // Reference to User
   password: string; // Student password
-  name: TuserName; // Embedded object for name
+  name: TUserName; // Embedded object for name
   gender: 'male' | 'female'; // Gender enumeration
   dateOfBirth: Date; // Date of birth
   email: string; // Email
