@@ -25,11 +25,11 @@ const moduleRoutes = [
   },
   {
     path: '/admins',
-    route: AdminRoutes,
+    module: AdminRoutes,
   },
   {
     path: '/auth',
-    route: AuthRoutes,
+    module: AuthRoutes,
   },
   {
     path: '/academic-semesters',
