@@ -20,6 +20,7 @@ import { TFaculty } from '../Faculty/faculty.interface';
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   try {
     const userData: Partial<TUser> = {
+      email: payload.email,
       password: password || (config.default_password as string),
       role: 'student',
     };
