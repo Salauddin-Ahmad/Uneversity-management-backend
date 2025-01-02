@@ -68,12 +68,12 @@ userSchema.statics.isUserExistsByCustomId = async function (id: string) {
 };
 
 
-// userSchema.statics.isPasswordMatched = async function (
-//   plainTextPassword,
-//   hashedPassword,
-// ) {
-//   return await bcrypt.compare(plainTextPassword, hashedPassword);
-// };
+userSchema.statics.isPasswordMatched = async function (
+  plainTextPassword,
+  hashedPassword,
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
+};
 
 // userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
 //   passwordChangedTimestamp: Date,
