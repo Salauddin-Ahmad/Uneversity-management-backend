@@ -4,10 +4,14 @@ import AppError from '../../errors/AppError';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { AuthServices } from './auth.service';
+import { User } from '../user/user.model';
 
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
+  console.log(req.user, req.body)
+  // console.log(user )
   const { refreshToken, accessToken, needsPasswordChange } = result;
+
 
   res.cookie('refreshToken', refreshToken, {
     secure: config.NODE_ENV === 'production',
