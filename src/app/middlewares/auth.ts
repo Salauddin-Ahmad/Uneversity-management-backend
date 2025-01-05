@@ -31,16 +31,16 @@ const auth = (...requiredRoles: TUserRole[]) => {
       throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found !');
     }
     // checking if the user is already deleted
-
+    
     const isDeleted = user?.isDeleted;
-
+    
     if (isDeleted) {
       throw new AppError(StatusCodes.FORBIDDEN, 'This user is deleted !');
     }
-
+    
     // checking if the user is blocked
     const userStatus = user?.status;
-
+    
     if (userStatus === 'blocked') {
       throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
     }
@@ -55,14 +55,15 @@ const auth = (...requiredRoles: TUserRole[]) => {
       throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized !');
     }
 
+    // const role = (decoded as JwtPayload).role;
     if (requiredRoles && !requiredRoles.includes(role)) {
       throw new AppError(
         StatusCodes.UNAUTHORIZED,
         'You are not authorized  hi!',
       );
     }
-
     req.user = decoded as JwtPayload;
+
     next();
   });
 };
