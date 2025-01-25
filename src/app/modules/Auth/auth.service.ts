@@ -49,15 +49,15 @@ const loginUser = async (payload: TLoginUser) => {
     config.jwt_access_expires_in as string,
   );
 
-  // const refreshToken = createToken(
-  //   jwtPayload,
-  //   config.jwt_refresh_secret as string,
-  //   config.jwt_refresh_expires_in as string,
-  // );
+  const refreshToken = createToken(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    config.jwt_refresh_expires_in as string,
+  );
 
   return {
     accessToken,
-    // refreshToken,
+    refreshToken,
     needsPasswordChange: user?.needsPasswordChange,
   };
 };
