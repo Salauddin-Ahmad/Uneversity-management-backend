@@ -43,8 +43,28 @@ const changePassword = catchAsync(async (req, res) => {
   });
 });
 
+// const refreshToken = catchAsync(async (req, res) => {
+//   const { refreshToken } = req.cookies;
+//   const result = await AuthServices.refreshToken(refreshToken);
+
+//   sendResponse(res, {
+//     statusCode: StatusCodes.OK,
+//     success: true,
+//     message: 'Access token is retrieved successfully!',
+//     data: result,
+//   });
+// });
+
+
+
 const refreshToken = catchAsync(async (req, res) => {
-  const { refreshToken } = req.cookies;
+  const { refreshToken } = req.cookies || {};
+  console.log();
+
+  if (!refreshToken) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Refresh token is required');
+  }
+
   const result = await AuthServices.refreshToken(refreshToken);
 
   sendResponse(res, {
@@ -54,6 +74,7 @@ const refreshToken = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 
 const forgetPassword = catchAsync(async (req, res) => {
   const userId = req.body.id;
