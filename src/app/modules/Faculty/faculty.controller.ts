@@ -19,12 +19,6 @@ export const createfaculty = catchAsync(async (req, res) => {
 });
 
 
-
-
-
-
-
-
 const getSingleFaculty = catchAsync(async (req, res) => {
   console.log('test', req.user)
   const { id } = req.params;
@@ -40,6 +34,7 @@ const getSingleFaculty = catchAsync(async (req, res) => {
 
 
 const getAllFaculties = catchAsync(async (req, res) => {
+  // console.log(req.cookies)
   const result = await FacultyServices.getAllFacultiesFromDB(req.query);
 
   res.status(201).json({
@@ -60,6 +55,9 @@ const updateFaculty = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+
+
 
 const deleteFaculty = catchAsync(async (req, res) => {
   const {  id } = req.params;
