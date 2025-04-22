@@ -12,6 +12,7 @@ export interface TUser {
   status: 'in-progress' | 'blocked';
   isDeleted: boolean;
 }
+export type TUserRole = keyof typeof USER_ROLE;
 
 export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
@@ -27,4 +28,3 @@ export interface UserModel extends Model<TUser> {
   ): boolean;
 }
 
-export type TUserRole = keyof typeof USER_ROLE;
